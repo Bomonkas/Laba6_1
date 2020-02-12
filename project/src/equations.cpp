@@ -24,9 +24,6 @@ double	dx2_1(double x1, double x2)
 double							dy(double x, double yi)
 {
 	if (fabs(x) < EPS)
-	{
-		std::cout << x << " " << EPS << "\n";
-		return (2);
-	}
+		return (1);
 	return (2 * (x * x + yi));
 }

@@ -7,7 +7,7 @@
 #define T0 0
 #define T 1
 #define N 10
-#define EPS 1e10-7
+#define EPS 1e-10
 typedef double(*equat) (double x1, double x2);
 typedef double(*eq) (double x, double yi);
 
