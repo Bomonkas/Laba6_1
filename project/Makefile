@@ -6,7 +6,7 @@ HDRS = \
 SRCS = \
 	   project/src/numSolODE.cpp \
 	   project/src/main.cpp \
-	   project/src/equations.cpp
+	   project/src/equations.cpp \
 
 .PHONY: all clean
 

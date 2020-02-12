@@ -29,7 +29,7 @@ std::vector <double> exp_eu1(eq dx)
 	yi.resize(N + 1);
 	yj.resize(N + 1);
 	yi[0] = dx(0, 0);
-	double step = (double)(T0 - T) / N;
+	double step = (double)(T - T0) / N;
 	for (std::size_t i = 1; i < yi.size(); i++)
 	{
 		yi[i] = dx(T0 + i * step, yi[i - 1]);

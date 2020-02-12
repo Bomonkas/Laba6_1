@@ -2,6 +2,7 @@
 #include <vector>
 #include <iostream>
 #include <iomanip>
+#include <cmath>
 
 #define T0 0
 #define T 1
