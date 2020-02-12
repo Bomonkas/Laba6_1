@@ -22,7 +22,7 @@ void	print_v(std::vector<double> vec)
 		std::cout << std::endl;
 }
 
-std::vector <double> exp_eu1(equat dx)
+std::vector <double> exp_eu1(eq dx)
 {
 	std::vector<double> yi; // yj = y(i+1)
 	std::vector<double> yj;

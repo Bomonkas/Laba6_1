@@ -16,5 +16,5 @@ double							dx1_1(double x1, double x2);
 double							dx2_1(double x1, double x2);
 double							dy(double x, double yi);
 std::vector <std::pair<double, double>>	exp_eu(equat dx1, equat dx2);
-std::vector <double>			exp_eu1(equat dx);
+std::vector <double>			exp_eu1(eq dx);
 
