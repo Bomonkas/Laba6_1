@@ -21,10 +21,9 @@ double	dx2_1(double x1, double x2)
 	return (1.5 * x1 - x1 * x1 * x2);
 }
 
-std::vector <double, double>	exp_eu(equat dx1, equat dx2)
+double							dy(double x, double yi)
 {
-	std::vector <double, double> x1i; // xj = x(i++);
-	std::vector <double, double> x1j;
-	std::vector <double, double> x2i; // xj = x(i++);
-	std::vector <double, double> x2j;
+	if (fabs(x) < EPS)
+		return (2);
+	return (2 * (x * x + yi));
 }
