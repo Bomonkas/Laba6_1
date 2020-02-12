@@ -2,16 +2,18 @@
 #include <iostream>
 
 // need to implement
-// метод Рунге-Кутты 4-го порядка точности
-// метод Адамса-Башфорта 4-го порядка точности 
-// метод прогноз-коррекция 4-го порядка точности
-// метод Рунге-Кутты 2-го порядка
-// Симметричную разностную схему
-// Явный Эйлер
-// Неявный Эйлер
+// 4th order accuracy Runge-Kutta method
+// 4th order accuracy Adams-Bashfort method
+// forecast-correction method of the 4th order of accuracy
+// 2nd order Runge-Kutta method
+// Symmetric difference scheme
+// Explicit Euler Method
+// Implicit Euler Method
 
 int main() {
 	std::vector<double> grid;
+	equat dx1 = dx1_1;
+	equat dx2 = dx2_1;
 	if (!get_grid(grid))
 		return (0);
 	print_v(grid);
