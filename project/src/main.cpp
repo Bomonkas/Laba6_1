@@ -1,4 +1,7 @@
 #include "numSolODE.h"
+#include "exp_eur.h"
+#include "equations.h"
+#include "secondary.h"
 #include <iostream>
 
 // need to implement
@@ -9,34 +12,6 @@
 // Symmetric difference scheme
 // Explicit Euler Method
 // Implicit Euler Method
-
-void	print_sol(std::vector<std::vector<double>> sol)
-{
-	double step = (double)(T - T0) / N;
-	std::cout << std::setw(6) << "t" << "    |";
-	for (std::size_t i = 0; i < sol[i].size(); i++)
-	{
-		std::cout << "     x" << i + 1 << "   |";
-	}
-	std::cout << "\n";
-	for (std::size_t i = 0; i < sol.size(); i++)
-	{
-		std::cout << std::setw(10) << T0 + i * step << "|";
-		for (std::size_t j = 0; j < sol[i].size(); j++)
-			std::cout << std::setw(10) <<  sol[i][j] << "|";
-		std::cout << "\n";
-	}
-	std::cout << std::endl;
-}
-
-void    v_clean(std::vector<std::vector<double>> vec)
-{
-	for (std::size_t i = 0; i < vec.size(); i++)
-	{
-		vec[i].clear();
-	}
-	vec.clear();
-}
 
 int		main() 
 {

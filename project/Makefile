@@ -4,9 +4,10 @@ HDRS = \
 	   project/include
 
 SRCS = \
-	   project/src/numSolODE.cpp \
+	   project/src/secondary.cpp \
 	   project/src/main.cpp \
 	   project/src/equations.cpp \
+	   project/src/exp_eur.cpp \
 
 .PHONY: all clean
 
