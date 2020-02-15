@@ -1,33 +1,61 @@
 #include "exp_eur.h"
+#include "secondary.h"
+#include <fstream>
 
-std::vector <std::vector<double>> exp_eu1(eq1 dx, double x0)
+int	exp_eur(double t0, double t, double n, std::vector<eq> equations, 
+		std::vector<double> initial_cond)
 {
-	std::vector<std::vector<double>> yi; // yj = y(i+1)
-	yi.resize(N + 1);
-	yi[0].resize(1);
-	yi[0][0] = x0;
-	double step = (double)(T - T0) / N;
-	for (std::size_t i = 1; i < yi.size(); i++)
+	std::vector<double> xi; // xj = x(i + 1)
+	std::vector<double> xj;
+	std::ofstream out("project/output/exp_eur.txt");
+	if (!out.is_open())
+		return (1);
+	xi.resize(equations.size());
+	xj.resize(equations.size());
+	double step = (t - t0) / n;
+	xi = initial_cond;
+	out << t0 << " ";
+	for (std::size_t j = 0; j < xj.size(); j++)
+			out << xi[j] << " ";
+	out << "\n";
+	for (std::size_t  i = 1; i <= n; i++)
 	{
-		yi[i].resize(1);
-		yi[i][0] = yi[i - 1][0] + step * dx(T0 + i * step, yi[i - 1][0]);
+		for (std::size_t j = 0; j < xi.size(); j++)
+			xj[j] = xi[j] + step * equations[j](t0 + i * step, xi);
+		out << t0 + i * step << " ";
+		for (std::size_t j = 0; j < xj.size(); j++)
+			out << xj[j] << " ";
+		out << "\n";
+		swap(xi, xj);
 	}
-	return (yi);
+	out.close();
+	xi.clear();
+	xj.clear();
+	return (0);
 }
 
-std::vector <std::vector<double>>	exp_eu(eq2 dy, eq2 dz, double y0, double z0)
+std::vector <std::vector<double>>	exp_eu(std::vector<eq> equations,
+									std::vector<double> intial_cond)
 {
 	std::vector<std::vector<double>> sol;
-	sol.resize(N + 1);
 	double step = (double)(T - T0) / N;
-	sol[0].resize(2);
-	sol[0][0] = y0;
-	sol[0][1] = z0;
-	for (std::size_t i = 1; i < sol.size(); i++)
+	sol.resize(N + 2);
+	sol[0].resize(N + 1);
+	for (std::size_t j = 0; j < sol[0].size(); j++)
+		sol[0][j] = T0 + j * step; 
+	sol[1].resize(equations.size());
+	for (std::size_t j = 0; j < sol[1].size(); j++)
+		sol[1][j] = intial_cond[j];
+	std::vector<double> means; 
+	means.resize(equations.size() + 1);
+	for (std::size_t i = 2; i < sol.size(); i++)
 	{
-		sol[i].resize(2);
-		sol[i][0] = sol[i - 1][0] + step * dy(T0 + i * step, sol[i - 1][0], sol[i - 1][1]);
-		sol[i][1] = sol[i - 1][1] + step * dz(T0 + i * step, sol[i - 1][0], sol[i - 1][1]);
+		sol[i].resize(equations.size());
+		means[0] = sol[0][i - 1];
+		for (std::size_t j = 1; j < means.size(); j++)
+			means[j] = sol[i - 1][j - 1];
+		for (std::size_t j = 0; j < sol[i].size(); j++)
+			sol[i][j] = sol[i - 1][j] + step * equations[j](T0 + (i - 1) * step, means);
 	}
 	return (sol);
 }

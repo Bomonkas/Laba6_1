@@ -2,7 +2,6 @@
 #include "exp_eur.h"
 #include "equations.h"
 #include "secondary.h"
-#include <iostream>
 
 // need to implement
 // 4th order accuracy Runge-Kutta method
@@ -15,20 +14,34 @@
 
 int		main() 
 {
-	std::vector<double> grid;
 	std::vector<std::vector<double>> sol;
-	eq2 dx1 = dy;
-	eq2 dx2 = dz;
-	eq1 dx = dy1;
-	sol = exp_eu1(dx, 1);
-	print_sol(sol);
-	v_clean(sol);
-	sol = exp_eu(dy, dz, 1, 0);
-	print_sol(sol);
-	v_clean(sol);
+	std::vector<eq> equations;
+	std::vector<double> initial_cond;
+	double t0 = -1.0;
+	double t = -1.0;
+	double n = -1.0;
+	double step = -1.0;
+	std::string method;
+
+	if (take_param(&t0, &t, &n, &step, equations, initial_cond, method))
+	{
+		std::cout << "Error with file work\n";
+		return (0);
+	}
+	if (method == "exp_eur")
+	{
+		if (exp_eur(t0, t, n, equations, initial_cond))
+		{
+			std::cout << "Error with output file\n";
+			return (0);
+		}
+		// sol = exp_eu(equations, initial_cond);
+		// print_sol1(sol);
+		// v_clean(sol);
+	}
+
 	// if (!get_grid(grid))
 	// // 	return (0);
 	// print_v(grid);
-	std::cout << "Laba #6\nMethods of numerical solution of ODE\n";
 	return 0;
 }

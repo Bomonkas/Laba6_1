@@ -1,38 +1,70 @@
 #include "numSolODE.h"
 
-double	dx1_1(double x1, double x2)
+double		equation1_mytest1(double t, std::vector<double> x)
 {
-	if (fabs(x1) < EPS && fabs(x2) > EPS)
-		return (-2.1 + x2);
-	if (fabs(x1) < EPS && fabs(x2) < EPS)
-		return (-0.1);
-	if (fabs(x1) > EPS && fabs(x2) < EPS)
-		return (0.4 - 2.5 * x1 + 2 * x1 * x1);
-	return (0.4 - 2.5 * x1 + x1 * x1 * x2);
+	return (2 * (t * t + x[0]));
 }
 
-double							dy(double x, double yi, double zi)
+double		equation1_mytest2(double t, std::vector<double> x)
 {
-	return (zi);
-}
-double							dz(double x, double yi, double zi)
-{
-	return (-2 * zi - yi + x);
-}
-double	dx2_1(double x1, double x2)
-{
-	if (fabs(x1) < EPS && fabs(x2) > EPS)
-		return (1.5 - x2);
-	if (fabs(x1) < EPS && fabs(x2) < EPS)
-		return (-0.5);
-	if (fabs(x1) > EPS && fabs(x2) < EPS)
-		return (1.5 * x1 - 2 * x1 * x1);
-	return (1.5 * x1 - x1 * x1 * x2);
+	return (x[1]);
 }
 
-double							dy1(double x, double yi)
+double		equation2_mytest2(double t, std::vector<double> x)
 {
-	if (fabs(x) < EPS)
-		return (1);
-	return (2 * (x * x + yi));
+	return (-2 * x[1] - x[0] + t);
 }
+
+
+// equations discribing movement of the ball
+double		equation1_pend(double t, std::vector<double> x)
+{
+	return (x[1]);
+}
+
+double		equation2_pend(double t, std::vector<double> x)
+{
+	return (-M / K * x[0]);
+}												   
+
+// ////////////////////////////////////////////////////////////////////////////////////////////
+// // test1
+// double		d1test1(double t, double x1, double x2) 
+// {
+// 	return (2 * x1 + x2 * x2 - 1);
+// }	
+
+// double		d2test1(double t, double x1, double x2)
+// {
+// 	return (6 * x1 - x2 * x2 + 1);
+// }												
+
+// ////////////////////////////////////////////////////////////////////////////////////////////
+// // test2
+// double		d1test2(double t, double x1, double x2) 
+// {
+// 	return (1 - x1 * x1 - x2 * x2);
+// }	
+
+// double		d2test2(double t, double x1, double x2)
+// {
+// 	return (2 * x1);
+// }													
+
+// ////////////////////////////////////////////////////////////////////////////////////////////
+// // test3
+// double		d1test3(double t, double x1, double x2, double x3) 
+// {
+// 	return (S * (x2 - x1));
+// }	
+
+// double		d2test3(double t, double x1, double x2, double x3)
+// {
+// 	return (x1 * (R - x3) - x2);
+// }	
+
+// double		d3test3(double t, double x1, double x2, double x3)
+// {
+// 	return (x1 * x2 - B * x3);
+// }	
+
