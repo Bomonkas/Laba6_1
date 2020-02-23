@@ -18,9 +18,6 @@
 #define R 28
 #define B 8/3
 
-
 typedef double(*eq) (double t, std::vector<double> x);
-// typedef double(*eq3) (double t, double x1, double x2, double x3);
-// typedef double(*eq2) (double t, double x1, double x2);
-// typedef double(*eq1) (double t, double x);
+typedef double(*fun) (double t);
 

@@ -8,6 +8,7 @@ SRCS = \
 	   project/src/main.cpp \
 	   project/src/equations.cpp \
 	   project/src/exp_eur.cpp \
+	   project/src/rk.cpp \
 
 .PHONY: all clean
 

@@ -22,6 +22,7 @@ int		get_grid(std::vector<double> grid) // delete later
 	print_v(grid);
 	return (1);
 }
+
 void	print_sol1(std::vector<std::vector<double>> sol)
 {
 	std::cout << std::setw(8) << "t" << "      |";
@@ -37,6 +38,7 @@ void	print_sol1(std::vector<std::vector<double>> sol)
 	}
 	std::cout << "\n";
 }
+
 void	print_sol(std::vector<std::vector<double>> sol)
 {
 	double step = (double)(T - T0) / N;
@@ -66,10 +68,27 @@ void    v_clean(std::vector<std::vector<double>> vec)
 }
 
 
-// double	residual()
+double	residual(std::string outfile, std::vector<fun> functions)
+{
+	std::ifstream set(outfile);
+	if (!set.is_open())
+		return (-1.0);
+	double x = 0.0, max = 0.0, t = 0.0;
+	while(set >> t)
+	{
+		for (std::size_t i = 0; i < functions.size(); i++)
+		{
+			set >> x;
+			x = fabs(x - functions[i](t));
+			if (x > max)
+				max = x;
+		}
+	}
+	return (max);
+}
 
 int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> &equations, 
-		std::vector<double> &initial_cond, std::string &method)
+		std::vector<double> &initial_cond, std::string &method, std::string &out_file, std::vector<fun> &functions)
 {
 	std::string line;
 	std::ifstream set("project/settings/settings.txt");
@@ -91,18 +110,55 @@ int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> 
 		line += c;
 		c = char(set.get());
 	}
-	if (line == "mytest1")
+	if (line == "myte5st1")
 	{
 		equations.resize(1);
+		functions.resize(1);
 		initial_cond.resize(1);
+		functions[0] = sol_eq1_mytest1;
 		equations[0] = equation1_mytest1;
 	}
 	else if (line == "mytest2")
 	{
 		equations.resize(2);
 		initial_cond.resize(2);
+		functions.resize(2);
+		functions[0] = sol_eq1_mytest2;
+		functions[1] = sol_eq2_mytest2;
 		equations[0] = equation1_mytest2;
 		equations[1] = equation2_mytest2;
+	}
+	else if (line == "test1")
+	{
+		equations.resize(2);
+		initial_cond.resize(2);
+		functions.resize(2);
+		// functions[0] = sol_eq1_test1;
+		// functions[1] = sol_eq2_test1;
+		equations[0] = equation1_test1;
+		equations[1] = equation2_test1;
+	}
+	else if (line == "test2")
+	{
+		equations.resize(2);
+		initial_cond.resize(2);
+		functions.resize(2);
+		// functions[0] = sol_eq1_test2;
+		// functions[1] = sol_eq2_test2;
+		equations[0] = equation1_test2;
+		equations[1] = equation2_test2;
+	}
+	else if (line == "test3")
+	{
+		equations.resize(3);
+		functions.resize(3);
+		initial_cond.resize(3);
+		// functions[0] = sol_eq1_test3;
+		// functions[1] = sol_eq2_test3;
+		// functions[2] = sol_eq_test3;
+		equations[0] = equation1_test3;
+		equations[1] = equation2_test3;
+		equations[2] = equation3_test3;
 	}
 	else 
 	{
@@ -134,6 +190,14 @@ int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> 
 	for (std::size_t i = 0; i < initial_cond.size(); i++)
 		init >> initial_cond[i];
 	init.close();
+	getline(set, line);
+	c = char(set.get());
+	out_file = "project/output/";
+	while (c != ' ' && c != '\t')
+	{
+		out_file += c;
+		c = char(set.get());
+	}
 	set.close();
 	return (0);
 }
