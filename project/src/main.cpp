@@ -60,8 +60,8 @@ int		main()
 			return (0);
 		}
 	}
-	double max = residual(out_file, functions);
-	std::cout << "residual = " << max;
-	v_clean(sol);
+	// double max = residual(out_file, functions);
+	// std::cout << "residual = " << max;
+	// v_clean(sol);
 	return (0);
 }

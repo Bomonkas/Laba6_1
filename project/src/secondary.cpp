@@ -87,18 +87,19 @@ double	residual(std::string outfile, std::vector<fun> functions)
 std::vector<std::vector<double>> matr_yac(std::vector<eq> func, std::vector<double> x)
 {
 	std::vector<std::vector<double>> res;
-	double tmp;
-
+	double tmp_x;
+	double tmp_f;
 	res.resize(x.size());
 	for (std::size_t i = 0; i < x.size(); i++)
 	{
 		res[i].resize(x.size());
 		for (std::size_t j = 0; j < x.size(); j++)
 		{
-			tmp = x[i];
-			x[j] += 10e-13;
-			res[i][j] = func[i](0.0, x) / 10e-13; 
-			x[j] = tmp;
+			tmp_x = x[j];
+			tmp_f = func[i](0.0, x);
+			x[j] += 10e-10;
+			res[i][j] = (-tmp_f + func[i](0.0, x)) / 10e-10; 
+			x[j] = tmp_x;
 		}
 	}
 	return (res);
@@ -127,25 +128,7 @@ int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> 
 		line += c;
 		c = char(set.get());
 	}
-	if (line == "myte5st1")
-	{
-		equations.resize(1);
-		functions.resize(1);
-		initial_cond.resize(1);
-		functions[0] = sol_eq1_mytest1;
-		equations[0] = equation1_mytest1;
-	}
-	else if (line == "mytest2")
-	{
-		equations.resize(2);
-		initial_cond.resize(2);
-		functions.resize(2);
-		functions[0] = sol_eq1_mytest2;
-		functions[1] = sol_eq2_mytest2;
-		equations[0] = equation1_mytest2;
-		equations[1] = equation2_mytest2;
-	}
-	else if (line == "test1")
+	if (line == "test1")
 	{
 		equations.resize(2);
 		initial_cond.resize(2);

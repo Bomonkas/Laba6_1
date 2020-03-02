@@ -1,36 +1,5 @@
 #include "numSolODE.h"
 
-double		equation1_mytest1(double t, std::vector<double> x)
-{
-	return (2 * (t * t + x[0]));
-}
-
-double		sol_eq1_mytest1(double t)
-{
-	return (1.5 * exp (2 * t) - t * t - t - 0.5);
-}
-
-/////////////////////////////////////////
-double		equation1_mytest2(double t, std::vector<double> x)
-{
-	return (x[1]);
-}
-
-double		equation2_mytest2(double t, std::vector<double> x)
-{
-	return (-2 * x[1] - x[0] + t);
-}
-
-double		sol_eq1_mytest2(double t)
-{
-	return (exp(-t) * (3 - 2 * exp(t) + 2 * t + exp(t) * t));
-}
-
-double		sol_eq2_mytest2(double t)
-{
-	return (exp(-t) * (-1 + exp(t) - 2 * t));
-}
-
 // equations discribing movement of the ball
 double		equation1_pend(double t, std::vector<double> x)
 {
