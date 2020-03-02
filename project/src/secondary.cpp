@@ -8,21 +8,6 @@ void	print_v(std::vector<double> vec)
 		std::cout << std::endl;
 }
 
-int		get_grid(std::vector<double> grid) // delete later
-{
-	if (T - T0 <= 0)
-	{
-		std::cout << "Error with interval\n";
-		return (0);
-	}
-	grid.resize(N + 1);
-	double step = (double)(T - T0) / N;
-	for (std::size_t i = 0; i < grid.size(); i++)
-		grid[i] = T0 + i * step;
-	print_v(grid);
-	return (1);
-}
-
 void	print_sol1(std::vector<std::vector<double>> sol)
 {
 	std::cout << std::setw(8) << "t" << "      |";
@@ -67,6 +52,17 @@ void    v_clean(std::vector<std::vector<double>> vec)
 	vec.clear();
 }
 
+void	print_vvec(std::vector<std::vector<double>> A)
+{
+	for (std::size_t i = 0; i < A.size(); i++)
+	{
+		for(std::size_t j = 0; j < A[i].size(); j++)
+		{
+			std::cout << A[i][j] << " ";
+		}
+		std::cout << "\n";
+	}
+}
 
 double	residual(std::string outfile, std::vector<fun> functions)
 {
@@ -85,6 +81,27 @@ double	residual(std::string outfile, std::vector<fun> functions)
 		}
 	}
 	return (max);
+}
+
+
+std::vector<std::vector<double>> matr_yac(std::vector<eq> func, std::vector<double> x)
+{
+	std::vector<std::vector<double>> res;
+	double tmp;
+
+	res.resize(x.size());
+	for (std::size_t i = 0; i < x.size(); i++)
+	{
+		res[i].resize(x.size());
+		for (std::size_t j = 0; j < x.size(); j++)
+		{
+			tmp = x[i];
+			x[j] += 10e-13;
+			res[i][j] = func[i](0.0, x) / 10e-13; 
+			x[j] = tmp;
+		}
+	}
+	return (res);
 }
 
 int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> &equations, 

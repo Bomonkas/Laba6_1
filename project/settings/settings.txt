@@ -1,9 +1,9 @@
 0						// T0
 1						// T
 10						// N
-0.01						// default step
+0.01					// default step
 mytest2					// name of equations
-rk4					// name of method
+imp_eur					// name of method
 mytest2.txt				// name of file with initial conditions
-rk4.txt				// name output file
+imp_eur.txt				// name output file
 

@@ -10,6 +10,8 @@ SRCS = \
 	   project/src/exp_eur.cpp \
 	   project/src/forecast_and_correction.cpp \
 	   project/src/rk.cpp \
+	   project/src/imp_eur.cpp \
+	   project/src/slau.cpp
 
 .PHONY: all clean
 

@@ -1,6 +1,4 @@
-#include "exp_eur.h"
-#include "secondary.h"
-#include <fstream>
+#include "numSolODE.h"
 
 int	exp_eur(double t0, double t, double n, std::vector<eq> equations, 
 		std::vector<double> initial_cond, std::string out_file)

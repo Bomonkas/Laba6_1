@@ -1,8 +1,5 @@
 #include "numSolODE.h"
-#include "exp_eur.h"
 #include "equations.h"
-#include "secondary.h"
-#include "rk.h"
 
 // need to implement
 // 4th order accuracy Runge-Kutta method
@@ -50,6 +47,14 @@ int		main()
 	else if (method == "rk4")
 	{
 		if (rk4(t0, t, step, equations, initial_cond, out_file))
+		{
+			std::cout << "Error with output file\n";
+			return (0);
+		}
+	}
+	else if (method == "imp_eur")
+	{
+		if (imp_eur(t0, t, n, equations, initial_cond, out_file))
 		{
 			std::cout << "Error with output file\n";
 			return (0);
