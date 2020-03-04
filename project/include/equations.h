@@ -22,5 +22,11 @@ double		equation1_test3(double t, std::vector<double> x); // test 3
 double		equation2_test3(double t, std::vector<double> x);
 double		equation3_test3(double t, std::vector<double> x);
 
+
+double		equation1_newton(double t, std::vector<double> x); //for testing newton method
+double		equation2_newton(double t, std::vector<double> x);
+std::vector<double>  test_new(double tau, std::vector<double> yn,
+			std::vector<double> ym, std::vector<eq> functions);
+			
 std::vector<double>		imp_eur_eq(double tau, std::vector<double> yn,
 						std::vector<double> ym, std::vector<eq> functions);

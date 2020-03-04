@@ -3,9 +3,9 @@
 
 void	print_v(std::vector<double> vec)
 {
-		for (std::size_t i = 0; i < vec.size(); i++)
-			std::cout << vec[i] << " ";
-		std::cout << std::endl;
+	for (std::size_t i = 0; i < vec.size(); i++)
+		std::cout << vec[i] << " ";
+	std::cout << std::endl;
 }
 
 void	print_sol1(std::vector<std::vector<double>> sol)
@@ -95,21 +95,44 @@ double	residual(std::string outfile, std::vector<fun> functions)
 	return (max);
 }
 
-std::vector<double> newton(std::vector<double> initial_cond, std::vector<eq> func)
+std::vector<double> 	my_newton(double tau, std::vector<double> yn, 
+std::vector<double> ym, std::vector<eq> equations, method_func F)
 {
 	std::vector<double> xi; //xj = x(i+1)
 	std::vector<double> xj;
+	std::vector<std::vector<double>> A;
+	std::vector<double> tmp_f;
+	tmp_f.resize(ym.size());
 	int iter = 0;
-	xi.resize(initial_cond.size());
-	xj.resize(initial_cond.size());
+	xi.resize(ym.size());
+	xj.resize(ym.size());
 	for (std::size_t j = 0; j < xi.size(); j++)
-		xi[j] = initial_cond[j];
+	{
+		xi[j] = 0;
+		xj[j] = 0;
+	}
+	tmp_f = F(tau, yn, xi, equations);
+	print_v(tmp_f);
 	do
 	{
+		A = inverse_matr(matr_yac(tau, yn, xi, equations, F));
+//		print_v(tmp_f);
+//		std::cout << "\n";
+		tmp_f = F(tau, yn, xi, equations);
+		for (std::size_t j = 0; j < xi.size(); j++)
+			for (std::size_t k = 0; k < xi.size(); k++)
+				xj[j] -= A[j][k] * tmp_f[k];
+		for (std::size_t j = 0; j < xi.size(); j++)
+			xi[j] = xj[j];
 		iter++;
 	} while (v_residual(xi, xj) > 10e-7 || iter < 100);
 	if (iter == 100)
+	{
 		std::cout << "Too many iterations\n";
+		xj.resize(0);
+	}
+	xi.clear();
+	tmp_f.clear();
 	return (xj);
 }
 
@@ -120,117 +143,27 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 	double tmp_x;
 	std::vector<double> tmp_f;
 	res.resize(yn.size());
+	// std::cout << "yn: ";
+	// print_v(yn);
+	// std::cout << "ym: ";
+	// print_v(ym);
+	// std::cout << "tau = " << tau;
+	// std::cout << "\nF: ";
+	// print_v(tmp_f);
+	// std::cout << std::endl;
+	tmp_f = F(tau, yn, ym, equations);
 	for (std::size_t i = 0; i < yn.size(); i++)
 	{
 		res[i].resize(yn.size());
-		tmp_f = F(tau, yn, ym, equations);
 		for (std::size_t j = 0; j < yn.size(); j++)
 		{
 			tmp_x = ym[j];
 			ym[j] += 10e-10;
-			std::cout << F(tau, yn, ym, equations)[j] << " ";
-			res[i][j] = (-tmp_f[j] + F(tau, yn, ym, equations)[j]) / 10e-10; 
+			res[i][j] = (-tmp_f[i] + F(tau, yn, ym, equations)[i]) / 10e-10; 
 			ym[j] = tmp_x;
 		}
-		std::cout << std::endl;
 	}
 	return (res);
 }
 
-int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> &equations, 
-		std::vector<double> &initial_cond, std::string &method, std::string &out_file, std::vector<fun> &functions)
-{
-	std::string line;
-	std::ifstream set("project/settings/settings.txt");
-
-	if (!set.is_open())
-		return (1);
-	set >> *t0;
-	getline(set, line);
-	set >> *t;
-	getline(set, line);
-	set >> *n;
-	getline(set, line);
-	set >> *step;
-	getline(set, line);
-	char c = char(set.get());
-	line.clear();
-	while (c != ' ' && c != '\t')
-	{
-		line += c;
-		c = char(set.get());
-	}
-	if (line == "test1")
-	{
-		equations.resize(2);
-		initial_cond.resize(2);
-		functions.resize(2);
-		// functions[0] = sol_eq1_test1;
-		// functions[1] = sol_eq2_test1;
-		equations[0] = equation1_test1;
-		equations[1] = equation2_test1;
-	}
-	else if (line == "test2")
-	{
-		equations.resize(2);
-		initial_cond.resize(2);
-		functions.resize(2);
-		// functions[0] = sol_eq1_test2;
-		// functions[1] = sol_eq2_test2;
-		equations[0] = equation1_test2;
-		equations[1] = equation2_test2;
-	}
-	else if (line == "test3")
-	{
-		equations.resize(3);
-		functions.resize(3);
-		initial_cond.resize(3);
-		// functions[0] = sol_eq1_test3;
-		// functions[1] = sol_eq2_test3;
-		// functions[2] = sol_eq_test3;
-		equations[0] = equation1_test3;
-		equations[1] = equation2_test3;
-		equations[2] = equation3_test3;
-	}
-	else 
-	{
-		return (1);
-	}
-	getline(set, line);
-	c = char(set.get());
-	while (c != ' ' && c != '\t')
-	{
-		method += c;
-		c = char(set.get());
-	}
-	getline(set, line);
-	c = char(set.get());
-	line = "project/initial_cond/";
-	while (c != ' ' && c != '\t')
-	{
-		line += c;
-		c = char(set.get());
-	}
-	std::ifstream init (line);
-	if (!init.is_open())
-	{
-		equations.clear();
-		initial_cond.clear();
-		set.close();
-		return (1);
-	}
-	for (std::size_t i = 0; i < initial_cond.size(); i++)
-		init >> initial_cond[i];
-	init.close();
-	getline(set, line);
-	c = char(set.get());
-	out_file = "project/output/";
-	while (c != ' ' && c != '\t')
-	{
-		out_file += c;
-		c = char(set.get());
-	}
-	set.close();
-	return (0);
-}
 

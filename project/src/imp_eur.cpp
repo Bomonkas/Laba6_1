@@ -17,15 +17,15 @@ int	imp_eur(double t0, double t, double n, std::vector<eq> equations,
 	out << t0 << " ";
 	for (std::size_t j = 0; j < xj.size(); j++)
 	{
-		xj[j] = 0;
+		xj[j] = 2;
 		out << xi[j] << " ";
 	}
 	out << "\n";
-	std::vector<std::vector<double>> A; 
-	A = matr_yac(1, xi, xj, equations, F); 
-	print_vvec(A);				
-	std::cout << "\n";
-	print_vvec(inverse_matr(A));
+	method_func f = test_new;
+	equations[0] = equation1_newton;
+	equations[1] = equation2_newton;
+	print_v(xi);
+	print_v(my_newton(step, xj, xj, equations, test_new));
 	out.close();
 	xi.clear();
 	xj.clear();
