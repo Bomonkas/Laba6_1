@@ -19,6 +19,8 @@
 #define B 8/3
 
 typedef double(*eq) (double t, std::vector<double> x);
+typedef std::vector<double>(*method_func) (double tau, std::vector<double> yn, 
+		std::vector<double> ym, std::vector<eq> functions);
 typedef double(*fun) (double t);
 
 void	print_v(std::vector<double> vec);
@@ -31,7 +33,8 @@ int		take_param(double *t0, double *t, double *n, double *step,
 double	residual(std::string outfile, std::vector<fun> functions);
 void	print_vvec(std::vector<std::vector<double>> A);
 std::vector<std::vector<double>> inverse_matr(std::vector<std::vector<double>> A);
-std::vector<std::vector<double>> matr_yac(std::vector<eq> func, std::vector<double> x);
+std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> yn, 
+std::vector<double> ym, std::vector<eq> equations, method_func F);
 
 int		exp_eur(double t0, double t, double n, std::vector<eq> equations, 
 		std::vector<double> initial_cond, std::string out_file);

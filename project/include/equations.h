@@ -21,3 +21,6 @@ double		equation2_test2(double t, std::vector<double> x); // (1, 0) - center, (0
 double		equation1_test3(double t, std::vector<double> x); // test 3
 double		equation2_test3(double t, std::vector<double> x);
 double		equation3_test3(double t, std::vector<double> x);
+
+std::vector<double>		imp_eur_eq(double tau, std::vector<double> yn,
+						std::vector<double> ym, std::vector<eq> functions);

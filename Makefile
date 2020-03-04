@@ -6,7 +6,8 @@ HDRS = \
 SRCS = \
 	   project/src/secondary.cpp \
 	   project/src/main.cpp \
-	   project/src/equations.cpp \
+	   project/src/test_equations.cpp \
+	   project/src/method_equations.cpp \
 	   project/src/exp_eur.cpp \
 	   project/src/forecast_and_correction.cpp \
 	   project/src/rk.cpp \

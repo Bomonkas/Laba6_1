@@ -64,6 +64,18 @@ void	print_vvec(std::vector<std::vector<double>> A)
 	}
 }
 
+double	v_residual(std::vector<double> vec1, std::vector<double> vec2)
+{
+	double x = 0.0, max = 0.0;
+	for(std::size_t j = 0; j < vec1.size(); j++)
+	{
+		x = fabs(vec1[j] - vec2[j]);
+		if (x > max)
+			max = x;
+	}
+	return (max);
+}
+
 double	residual(std::string outfile, std::vector<fun> functions)
 {
 	std::ifstream set(outfile);
@@ -83,24 +95,44 @@ double	residual(std::string outfile, std::vector<fun> functions)
 	return (max);
 }
 
+std::vector<double> newton(std::vector<double> initial_cond, std::vector<eq> func)
+{
+	std::vector<double> xi; //xj = x(i+1)
+	std::vector<double> xj;
+	int iter = 0;
+	xi.resize(initial_cond.size());
+	xj.resize(initial_cond.size());
+	for (std::size_t j = 0; j < xi.size(); j++)
+		xi[j] = initial_cond[j];
+	do
+	{
+		iter++;
+	} while (v_residual(xi, xj) > 10e-7 || iter < 100);
+	if (iter == 100)
+		std::cout << "Too many iterations\n";
+	return (xj);
+}
 
-std::vector<std::vector<double>> matr_yac(std::vector<eq> func, std::vector<double> x)
+std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> yn, 
+std::vector<double> ym, std::vector<eq> equations, method_func F)
 {
 	std::vector<std::vector<double>> res;
 	double tmp_x;
-	double tmp_f;
-	res.resize(x.size());
-	for (std::size_t i = 0; i < x.size(); i++)
+	std::vector<double> tmp_f;
+	res.resize(yn.size());
+	for (std::size_t i = 0; i < yn.size(); i++)
 	{
-		res[i].resize(x.size());
-		for (std::size_t j = 0; j < x.size(); j++)
+		res[i].resize(yn.size());
+		tmp_f = F(tau, yn, ym, equations);
+		for (std::size_t j = 0; j < yn.size(); j++)
 		{
-			tmp_x = x[j];
-			tmp_f = func[i](0.0, x);
-			x[j] += 10e-10;
-			res[i][j] = (-tmp_f + func[i](0.0, x)) / 10e-10; 
-			x[j] = tmp_x;
+			tmp_x = ym[j];
+			ym[j] += 10e-10;
+			std::cout << F(tau, yn, ym, equations)[j] << " ";
+			res[i][j] = (-tmp_f[j] + F(tau, yn, ym, equations)[j]) / 10e-10; 
+			ym[j] = tmp_x;
 		}
+		std::cout << std::endl;
 	}
 	return (res);
 }
