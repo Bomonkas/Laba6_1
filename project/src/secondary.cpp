@@ -131,8 +131,6 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 		std::cout << "Too many iterations\n";
 		xj.resize(0);
 	}
-	xi.clear();
-	tmp_f.clear();
 	return (xj);
 }
 

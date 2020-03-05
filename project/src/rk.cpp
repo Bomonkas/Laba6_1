@@ -30,10 +30,6 @@ int	rk2(double t0, double t, double step, std::vector<eq> equations,
 		swap(xi, xj);
 	}
 	out.close();
-	xi.clear();
-	k1.clear();
-	k2.clear();
-	xj.clear();
 	return (0);
 }
 
@@ -82,10 +78,5 @@ int	rk4(double t0, double t, double step, std::vector<eq> equations,
 		swap(xi, xj);
 	}
 	out.close();
-	ki.clear();
-	kj.clear();
-	kn.clear();
-	xi.clear();
-	xj.clear();
 	return (0);
 }
