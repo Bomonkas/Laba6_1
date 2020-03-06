@@ -30,35 +30,35 @@ double		equation1_test1(double t, std::vector<double> x)
 
 double		equation2_test1(double t, std::vector<double> x)
 {
-	return (6 * x[0]- x[1] * x[1] + 1);
+	return 6 * x[0]- x[1] * x[1] + 1;
 }												
 
 ////////////////////////////////////////////////////////////////////////////////////////////
 // test2
-double		equation1_test2(double t, std::vector<double> x) 
+double		equation1_test2(double t, std::vector<double> x)
 {
-	return (1 - x[0] * x[0] - x[0] * x[1]);
+	return 1 - x[0] * x[0] - x[0] * x[1];
 }	
 
 double		equation2_test2(double t, std::vector<double> x)
 {
-	return (2 * x[0]);
+	return 2 * x[0];
 }													
 
 // ////////////////////////////////////////////////////////////////////////////////////////////
 // test3
 double		equation1_test3(double t, std::vector<double> x) 
 {
-	return (S * (x[1] - x[0]));
+	return S * (x[1] - x[0]);
 }	
 
 double		equation2_test3(double t, std::vector<double> x)
 {
-	return (x[0] * (R - x[2]) - x[1]);
+	return x[0] * (R - x[2]) - x[1];
 }	
 
 double		equation3_test3(double t, std::vector<double> x)
 {
-	return (x[0] * x[1] - B * x[2]);
+	return x[0] * x[1] - B * x[2];
 }	
 

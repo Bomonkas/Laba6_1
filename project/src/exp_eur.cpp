@@ -16,10 +16,12 @@ int	exp_eur(double t0, double t, double n, std::vector<eq> equations,
 	for (std::size_t j = 0; j < xj.size(); j++)
 			out << xi[j] << " ";
 	out << "\n";
+	double tmp_t = t0;
 	for (std::size_t  i = 1; i <= n; i++)
 	{
+		tmp_t += step;
 		for (std::size_t j = 0; j < xi.size(); j++)
-			xj[j] = xi[j] + step * equations[j](t0 + i * step, xi);
+			xj[j] = xi[j] + step * equations[j](tmp_t, xi);
 		out << t0 + i * step << " ";
 		for (std::size_t j = 0; j < xj.size(); j++)
 			out << xj[j] << " ";
@@ -27,9 +29,7 @@ int	exp_eur(double t0, double t, double n, std::vector<eq> equations,
 		swap(xi, xj);
 	}
 	out.close();
-	xi.clear();
-	xj.clear();
-	return (0);
+	return 0;
 }
 
 // std::vector <std::vector<double>>	exp_eu(std::vector<eq> equations,

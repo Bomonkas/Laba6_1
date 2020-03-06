@@ -9,7 +9,7 @@ SRCS = \
 	   project/src/test_equations.cpp \
 	   project/src/method_equations.cpp \
 	   project/src/exp_eur.cpp \
-	   project/src/forecast_and_correction.cpp \
+	   project/src/prediction_and_correction.cpp \
 	   project/src/rk.cpp \
 	   project/src/imp_eur.cpp \
 	   project/src/take_param.cpp \

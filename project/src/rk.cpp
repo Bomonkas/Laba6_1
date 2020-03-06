@@ -7,7 +7,7 @@ int	rk2(double t0, double t, double step, std::vector<eq> equations,
 	std::vector<double> k1, k2;
 	std::ofstream out(out_file);
 	if (!out.is_open())
-		return (1);
+		return 1;
 	xi.resize(equations.size());
 	xj.resize(equations.size());
 	k1.resize(equations.size());
@@ -30,7 +30,7 @@ int	rk2(double t0, double t, double step, std::vector<eq> equations,
 		swap(xi, xj);
 	}
 	out.close();
-	return (0);
+	return 0;
 }
 
 int	rk4(double t0, double t, double step, std::vector<eq> equations, 
@@ -40,7 +40,7 @@ int	rk4(double t0, double t, double step, std::vector<eq> equations,
 	std::vector<double> ki, kj, kn;
 	std::ofstream out(out_file);
 	if (!out.is_open())
-		return (1);
+		return 1;
 	xi.resize(equations.size());
 	xj.resize(equations.size());
 	ki.resize(equations.size());
@@ -78,5 +78,5 @@ int	rk4(double t0, double t, double step, std::vector<eq> equations,
 		swap(xi, xj);
 	}
 	out.close();
-	return (0);
+	return 0;
 }

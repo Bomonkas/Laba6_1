@@ -8,40 +8,40 @@ void	print_v(std::vector<double> vec)
 	std::cout << std::endl;
 }
 
-void	print_sol1(std::vector<std::vector<double>> sol)
-{
-	std::cout << std::setw(8) << "t" << "      |";
-	for (std::size_t i = 1; i <= sol[1].size(); i++)
-		std::cout << "       x" << i << "     |";
-	std::cout << "\n";
-	for (std::size_t i = 1; i < sol.size(); i++)
-	{
-		std::cout << std::setw(14) << sol[0][i - 1] << "|";
-		for (std::size_t j = 0; j < sol[i].size(); j++)
-			std::cout << std::setw(14) <<  sol[i][j] << "|";
-		std::cout << "\n";
-	}
-	std::cout << "\n";
-}
+// void	print_sol1(std::vector<std::vector<double>> sol)
+// {
+// 	std::cout << std::setw(8) << "t" << "      |";
+// 	for (std::size_t i = 1; i <= sol[1].size(); i++)
+// 		std::cout << "       x" << i << "     |";
+// 	std::cout << "\n";
+// 	for (std::size_t i = 1; i < sol.size(); i++)
+// 	{
+// 		std::cout << std::setw(14) << sol[0][i - 1] << "|";
+// 		for (std::size_t j = 0; j < sol[i].size(); j++)
+// 			std::cout << std::setw(14) <<  sol[i][j] << "|";
+// 		std::cout << "\n";
+// 	}
+// 	std::cout << "\n";
+// }
 
-void	print_sol(std::vector<std::vector<double>> sol)
-{
-	double step = (double)(T - T0) / N;
-	std::cout << std::setw(6) << "t" << "    |";
-	for (std::size_t i = 0; i < sol[i].size(); i++)
-	{
-		std::cout << "     x" << i + 1 << "   |";
-	}
-	std::cout << "\n";
-	for (std::size_t i = 0; i < sol.size(); i++)
-	{
-		std::cout << std::setw(10) << T0 + i * step << "|";
-		for (std::size_t j = 0; j < sol[i].size(); j++)
-			std::cout << std::setw(10) <<  sol[i][j] << "|";
-		std::cout << "\n";
-	}
-	std::cout << std::endl;
-}
+// void	print_sol(std::vector<std::vector<double>> sol)
+// {
+// 	double step = (double)(T - T0) / N;
+// 	std::cout << std::setw(6) << "t" << "    |";
+// 	for (std::size_t i = 0; i < sol[i].size(); i++)
+// 	{
+// 		std::cout << "     x" << i + 1 << "   |";
+// 	}
+// 	std::cout << "\n";
+// 	for (std::size_t i = 0; i < sol.size(); i++)
+// 	{
+// 		std::cout << std::setw(10) << T0 + i * step << "|";
+// 		for (std::size_t j = 0; j < sol[i].size(); j++)
+// 			std::cout << std::setw(10) <<  sol[i][j] << "|";
+// 		std::cout << "\n";
+// 	}
+// 	std::cout << std::endl;
+// }
 
 void    v_clean(std::vector<std::vector<double>> vec)
 {
@@ -73,14 +73,14 @@ double	v_residual(std::vector<double> vec1, std::vector<double> vec2)
 		if (x > max)
 			max = x;
 	}
-	return (max);
+	return max;
 }
 
 double	residual(std::string outfile, std::vector<fun> functions)
 {
 	std::ifstream set(outfile);
 	if (!set.is_open())
-		return (-1.0);
+		return -1.0;
 	double x = 0.0, max = 0.0, t = 0.0;
 	while(set >> t)
 	{
@@ -92,7 +92,7 @@ double	residual(std::string outfile, std::vector<fun> functions)
 				max = x;
 		}
 	}
-	return (max);
+	return max;
 }
 
 std::vector<double> 	my_newton(double tau, std::vector<double> yn, 
@@ -131,7 +131,7 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 		std::cout << "Too many iterations\n";
 		xj.resize(0);
 	}
-	return (xj);
+	return xj;
 }
 
 std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> yn, 
@@ -161,7 +161,7 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 			ym[j] = tmp_x;
 		}
 	}
-	return (res);
+	return res;
 }
 
 

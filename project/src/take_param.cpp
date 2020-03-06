@@ -1,28 +1,28 @@
 #include "numSolODE.h"
 #include "equations.h"
 
-int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> &equations, 
+int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> &equations, 
 		std::vector<double> &initial_cond, std::string &method, std::string &out_file, std::vector<fun> &functions)
 {
 	std::string line;
-	std::ifstream set("project/settings/settings.txt");
+	std::ifstream fin("project/settings/settings.txt");
 
-	if (!set.is_open())
+	if (!fin.is_open())
 		return (1);
-	set >> *t0;
-	getline(set, line);
-	set >> *t;
-	getline(set, line);
-	set >> *n;
-	getline(set, line);
-	set >> *step;
-	getline(set, line);
-	char c = char(set.get());
+	fin >> t0;
+	getline(fin, line);
+	fin >> t;
+	getline(fin, line);
+	fin >> n;
+	getline(fin, line);
+	fin >> step;
+	getline(fin, line);
+	char c = char(fin.get());
 	line.clear();
 	while (c != ' ' && c != '\t')
 	{
 		line += c;
-		c = char(set.get());
+		c = char(fin.get());
 	}
 	if (line == "test1")
 	{
@@ -58,42 +58,43 @@ int		take_param(double *t0, double *t, double *n, double *step, std::vector<eq> 
 	}
 	else 
 	{
-		return (1);
+		return 1;
 	}
-	getline(set, line);
-	c = char(set.get());
+	getline(fin, line);
+	c = char(fin.get());
 	while (c != ' ' && c != '\t')
 	{
 		method += c;
-		c = char(set.get());
+		c = char(fin.get());
 	}
-	getline(set, line);
-	c = char(set.get());
+	getline(fin, line);
+	c = char(fin.get());
 	line = "project/initial_cond/";
 	while (c != ' ' && c != '\t')
 	{
 		line += c;
-		c = char(set.get());
+		c = char(fin.get());
 	}
 	std::ifstream init (line);
 	if (!init.is_open())
 	{
 		equations.clear();
 		initial_cond.clear();
-		set.close();
+		fin.close();
 		return (1);
 	}
 	for (std::size_t i = 0; i < initial_cond.size(); i++)
 		init >> initial_cond[i];
 	init.close();
-	getline(set, line);
-	c = char(set.get());
-	out_file = "project/output/";
+	getline(fin, line);
+	c = char(fin.get());
+//	out_file = "project/output/";
 	while (c != ' ' && c != '\t')
 	{
 		out_file += c;
-		c = char(set.get());
+		c = char(fin.get());
 	}
-	set.close();
-	return (0);
+	fin.close();
+	std::cout << &equations << "\n";
+	return 0;
 }

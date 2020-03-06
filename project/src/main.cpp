@@ -10,7 +10,7 @@
 // Explicit Euler Method
 // Implicit Euler Method
 
-int		main() 
+int main()
 {
 	std::vector<std::vector<double>> sol;
 	std::vector<eq> equations;
@@ -23,17 +23,19 @@ int		main()
 	std::string method;
 	std::string out_file;
 
-	if (take_param(&t0, &t, &n, &step, equations, initial_cond, method, out_file, functions))
+//	std::cout << &equations << "\n";
+	if (take_param(t0, t, n, step, equations, initial_cond, method, out_file, functions))
 	{
 		std::cout << "Error with file work\n";
-		return (0);
+		return 0;
 	}
+//	std::cout << &equations << "\n";
 	if (method == "exp_eur")
 	{
 		if (exp_eur(t0, t, n, equations, initial_cond, out_file))
 		{
 			std::cout << "Error with output file\n";
-			return (0);
+			return 0;
 		}
 	}
 	else if (method == "rk2")
@@ -41,7 +43,7 @@ int		main()
 		if (rk2(t0, t, step, equations, initial_cond, out_file))
 		{
 			std::cout << "Error with output file\n";
-			return (0);
+			return 0;
 		}
 	}
 	else if (method == "rk4")
@@ -49,7 +51,7 @@ int		main()
 		if (rk4(t0, t, step, equations, initial_cond, out_file))
 		{
 			std::cout << "Error with output file\n";
-			return (0);
+			return 0;
 		}
 	}
 	else if (method == "imp_eur")
@@ -57,11 +59,9 @@ int		main()
 		if (imp_eur(t0, t, n, equations, initial_cond, out_file))
 		{
 			std::cout << "Error with output file\n";
-			return (0);
+			return 0;
 		}
 	}
-	// double max = residual(out_file, functions);
-	// std::cout << "residual = " << max;
-	// v_clean(sol);
-	return (0);
+	//	double max = residual(out_file, functions);
+	return 0;
 }

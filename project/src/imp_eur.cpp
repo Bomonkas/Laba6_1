@@ -27,5 +27,5 @@ int	imp_eur(double t0, double t, double n, std::vector<eq> equations,
 	print_v(xi);
 	print_v(my_newton(step, xj, xj, equations, test_new));
 	out.close();
-	return (0);
+	return 0;
 }

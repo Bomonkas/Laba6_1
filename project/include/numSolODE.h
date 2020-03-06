@@ -6,11 +6,6 @@
 #include <cmath>
 #include <fstream>
 
-#define T0 0 
-#define T 1
-#define N 10
-#define EPS 1e-10
-
 #define M 10 // mass 
 #define K 10 // redigity
 
@@ -27,7 +22,7 @@ void	print_v(std::vector<double> vec);
 void	v_clean(std::vector<std::vector<double>> vec);
 void	print_sol(std::vector<std::vector<double>> sol);
 void	print_sol1(std::vector<std::vector<double>> sol);
-int		take_param(double *t0, double *t, double *n, double *step,
+int		take_param(double &t0, double &t, double &n, double &step,
 		std::vector<eq> &equations, std::vector<double> &initial_cond,
 		std::string &method, std::string &out_file, std::vector<fun> &functions);
 double	residual(std::string outfile, std::vector<fun> functions);
