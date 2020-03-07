@@ -62,6 +62,6 @@ int main()
 			return 0;
 		}
 	}
-	//	double max = residual(out_file, functions);
+//	std::cout << residual(out_file, functions);
 	return 0;
 }

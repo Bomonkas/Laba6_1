@@ -1,7 +1,7 @@
 #include "numSolODE.h"
 
-int	exp_eur(double t0, double t, double n, std::vector<eq> equations, 
-		std::vector<double> initial_cond, std::string out_file)
+int	exp_eur(double t0, double t, double n, std::vector<eq> &equations, 
+		std::vector<double> &initial_cond, std::string &out_file)
 {
 	std::vector<double> xi; // xj = x(i + 1)
 	std::vector<double> xj;

@@ -1,8 +1,8 @@
 #include "numSolODE.h"
 #include "equations.h"
 
-int	imp_eur(double t0, double t, double n, std::vector<eq> equations, 
-		std::vector<double> initial_cond, std::string out_file)
+int	imp_eur(double t0, double t, double n, std::vector<eq> &equations, 
+		std::vector<double> &initial_cond, std::string &out_file)
 {
 	std::vector<double> xi; // xj = x(i + 1)
 	std::vector<double> xj;
@@ -17,7 +17,7 @@ int	imp_eur(double t0, double t, double n, std::vector<eq> equations,
 	out << t0 << " ";
 	for (std::size_t j = 0; j < xj.size(); j++)
 	{
-		xj[j] = 2;
+		xj[j] = 3 + j;
 		out << xi[j] << " ";
 	}
 	out << "\n";
@@ -25,7 +25,8 @@ int	imp_eur(double t0, double t, double n, std::vector<eq> equations,
 	equations[0] = equation1_newton;
 	equations[1] = equation2_newton;
 	print_v(xi);
-	print_v(my_newton(step, xj, xj, equations, test_new));
+	std::vector<double> vec = my_newton(step, xi, xj, equations, test_new);
+	print_v(vec);
 	out.close();
 	return 0;
 }

@@ -2,7 +2,7 @@
 1						// T
 10						// N
 0.01					// default step
-test1				// name of equations
+test1					// name of equations
 imp_eur					// name of method
 test1.txt				// name of file with initial conditions
 imp_eur.txt				// name output file

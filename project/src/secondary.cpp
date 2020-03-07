@@ -1,7 +1,7 @@
 #include "numSolODE.h"
 #include "equations.h"
 
-void	print_v(std::vector<double> vec)
+void	print_v(std::vector<double> &vec)
 {
 	for (std::size_t i = 0; i < vec.size(); i++)
 		std::cout << vec[i] << " ";
@@ -43,7 +43,7 @@ void	print_v(std::vector<double> vec)
 // 	std::cout << std::endl;
 // }
 
-void    v_clean(std::vector<std::vector<double>> vec)
+void    v_clean(std::vector<std::vector<double>> &vec)
 {
 	for (std::size_t i = 0; i < vec.size(); i++)
 	{
@@ -52,7 +52,7 @@ void    v_clean(std::vector<std::vector<double>> vec)
 	vec.clear();
 }
 
-void	print_vvec(std::vector<std::vector<double>> A)
+void	print_vvec(std::vector<std::vector<double>> &A)
 {
 	for (std::size_t i = 0; i < A.size(); i++)
 	{
@@ -64,7 +64,7 @@ void	print_vvec(std::vector<std::vector<double>> A)
 	}
 }
 
-double	v_residual(std::vector<double> vec1, std::vector<double> vec2)
+double	v_residual(std::vector<double> &vec1, std::vector<double> &vec2)
 {
 	double x = 0.0, max = 0.0;
 	for(std::size_t j = 0; j < vec1.size(); j++)
@@ -76,7 +76,7 @@ double	v_residual(std::vector<double> vec1, std::vector<double> vec2)
 	return max;
 }
 
-double	residual(std::string outfile, std::vector<fun> functions)
+double	residual(std::string &outfile, std::vector<fun> &functions)
 {
 	std::ifstream set(outfile);
 	if (!set.is_open())
@@ -95,8 +95,8 @@ double	residual(std::string outfile, std::vector<fun> functions)
 	return max;
 }
 
-std::vector<double> 	my_newton(double tau, std::vector<double> yn, 
-std::vector<double> ym, std::vector<eq> equations, method_func F)
+std::vector<double> 	my_newton(double tau, std::vector<double> &yn, 
+std::vector<double> &ym, std::vector<eq> &equations, method_func F)
 {
 	std::vector<double> xi; //xj = x(i+1)
 	std::vector<double> xj;
@@ -108,14 +108,15 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 	xj.resize(ym.size());
 	for (std::size_t j = 0; j < xi.size(); j++)
 	{
-		xi[j] = 0;
-		xj[j] = 0;
+		xi[j] = ym[j];
+		xj[j] = ym[j];
 	}
 	tmp_f = F(tau, yn, xi, equations);
 	print_v(tmp_f);
 	do
 	{
-		A = inverse_matr(matr_yac(tau, yn, xi, equations, F));
+		A = matr_yac(tau, yn, xi, equations, F);
+		A = inverse_matr(A);
 //		print_v(tmp_f);
 //		std::cout << "\n";
 		tmp_f = F(tau, yn, xi, equations);
@@ -134,8 +135,8 @@ std::vector<double> ym, std::vector<eq> equations, method_func F)
 	return xj;
 }
 
-std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> yn, 
-std::vector<double> ym, std::vector<eq> equations, method_func F)
+std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> &yn, 
+std::vector<double> &ym, std::vector<eq> &equations, method_func F)
 {
 	std::vector<std::vector<double>> res;
 	double tmp_x;

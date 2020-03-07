@@ -44,6 +44,16 @@ int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> 
 		equations[0] = equation1_test2;
 		equations[1] = equation2_test2;
 	}
+	else if (line == "pend")
+	{
+		equations.resize(2);
+		initial_cond.resize(2);
+		functions.resize(2);
+		functions[0] = sol_eq1_pend;
+		functions[1] = sol_eq2_pend;
+		equations[0] = equation1_test2;
+		equations[1] = equation2_test2;
+	}
 	else if (line == "test3")
 	{
 		equations.resize(3);
@@ -95,6 +105,6 @@ int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> 
 		c = char(fin.get());
 	}
 	fin.close();
-	std::cout << &equations << "\n";
+//	std::cout << &equations << "\n";
 	return 0;
 }

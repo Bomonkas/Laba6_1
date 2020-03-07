@@ -7,7 +7,7 @@ int is_zero(double elem)
 	return 0;
 }
 
-int find_and_swap(std::vector<std::vector<double>> A, std::vector<double> B1, int k)
+int find_and_swap(std::vector<std::vector<double>> &A, std::vector<double> &B1, int k)
 {
 	if (!A.size() || !B1.size())
 	{
@@ -40,7 +40,7 @@ int find_and_swap(std::vector<std::vector<double>> A, std::vector<double> B1, in
 	return 0;
 }
 
-std::vector<double> reverse_move(std::vector<std::vector<double>> A, std::vector<double> B1)
+std::vector<double> reverse_move(std::vector<std::vector<double>> &A, std::vector<double> &B1)
 {
 	std::vector<double> result;
 	result.resize(A[0].size());
@@ -70,7 +70,7 @@ std::vector<double> reverse_move(std::vector<std::vector<double>> A, std::vector
 	return result;
 }
 
-std::vector<double> gauss(std::vector<std::vector<double>> A, std::vector<double> C)
+std::vector<double> gauss(std::vector<std::vector<double>> &A, std::vector<double> &C)
 {
 	double koff = 0;
 	for (int k = 0; k < A.size(); k++)
@@ -103,7 +103,7 @@ std::vector<double> gauss(std::vector<std::vector<double>> A, std::vector<double
 	return reverse_move(A, C);
 }
 
-std::vector<std::vector<double>> inverse_matr(std::vector<std::vector<double>> A)
+std::vector<std::vector<double>> inverse_matr(std::vector<std::vector<double>> &A)
 {
 	std::vector<std::vector<double>> res_matr;
 	res_matr.resize(A.size());
