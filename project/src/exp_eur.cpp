@@ -1,32 +1,33 @@
 #include "numSolODE.h"
 
 int	exp_eur(double t0, double t, double n, std::vector<eq> &equations, 
-		std::vector<double> &initial_cond, std::string &out_file)
+	std::vector<double> &initial_cond, std::string &out_file)
 {
-	std::vector<double> xi; // xj = x(i + 1)
-	std::vector<double> xj;
+	std::vector<double> x_old;
+	std::vector<double> x_new;
 	std::ofstream out(out_file);
 	if (!out.is_open())
 		return (1);
-	xi.resize(equations.size());
-	xj.resize(equations.size());
+	x_old.resize(equations.size());
+	x_new.resize(equations.size());
 	double step = (t - t0) / n;
-	xi = initial_cond;
+	x_old = initial_cond;
 	out << t0 << " ";
-	for (std::size_t j = 0; j < xj.size(); j++)
-			out << xi[j] << " ";
+	for (std::size_t j = 0; j < x_old.size(); j++)
+			out << x_old[j] << " ";
 	out << "\n";
 	double tmp_t = t0;
 	for (std::size_t  i = 1; i <= n; i++)
 	{
 		tmp_t += step;
-		for (std::size_t j = 0; j < xi.size(); j++)
-			xj[j] = xi[j] + step * equations[j](tmp_t, xi);
-		out << t0 + i * step << " ";
-		for (std::size_t j = 0; j < xj.size(); j++)
-			out << xj[j] << " ";
+		out << tmp_t << " ";
+		for (std::size_t j = 0; j < x_old.size(); j++)
+			{
+				x_new[j] = x_old[j] + step * equations[j](tmp_t, x_old);
+				out << x_new[j] << " ";
+			}
 		out << "\n";
-		swap(xi, xj);
+		swap(x_old, x_new);
 	}
 	out.close();
 	return 0;

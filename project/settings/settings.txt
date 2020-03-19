@@ -5,5 +5,5 @@
 test1					// name of equations
 imp_eur					// name of method
 test1.txt				// name of file with initial conditions
-imp_eur.txt				// name output file
+imp_eur.txt		        // name output file
 

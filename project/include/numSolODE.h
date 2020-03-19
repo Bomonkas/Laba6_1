@@ -28,11 +28,12 @@ int		take_param(double &t0, double &t, double &n, double &step,
 double	residual(std::string &outfile, std::vector<fun> &functions);
 void	print_vvec(std::vector<std::vector<double>> &A);
 
-std::vector<std::vector<double>> inverse_matr(std::vector<std::vector<double>> &A);
-std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> &yn, 
-std::vector<double> &ym, std::vector<eq> &equations, method_func F);
-std::vector<double> my_newton(double tau, std::vector<double> &yn, 
-std::vector<double> &ym, std::vector<eq> &equations, method_func F);
+std::vector<std::vector<double>>	inverse_matr(std::vector<std::vector<double>> &A);
+std::vector<std::vector<double>>	matr_yac(double tau, std::vector<double> &yn, 
+									std::vector<double> &ym, std::vector<eq> &equations, method_func F);
+std::vector<double>					mult_m_v(std::vector<std::vector<double>> matr, std::vector<double> vec);
+std::vector<double>					my_newton(double tau, std::vector<double> &yn, 
+std::vector<double> 				&ym, std::vector<eq> &equations, method_func F);
 
 int		exp_eur(double t0, double t, double n, std::vector<eq> &equations, 
 		std::vector<double> &initial_cond, std::string &out_file);

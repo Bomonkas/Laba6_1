@@ -95,53 +95,56 @@ double	residual(std::string &outfile, std::vector<fun> &functions)
 	return max;
 }
 
-std::vector<double> 	my_newton(double tau, std::vector<double> &yn, 
-std::vector<double> &ym, std::vector<eq> &equations, method_func F)
+std::vector<double> 	my_newton(double tau, std::vector<double> &y_old,
+						std::vector<double> &y_new, std::vector<eq> &equations, method_func F)
 {
-	std::vector<double> xi; //xj = x(i+1)
-	std::vector<double> xj;
+	std::vector<double> x_old; //xj = x(i+1)
+	std::vector<double> x_new;
 	std::vector<std::vector<double>> A;
-	std::vector<double> tmp_f;
-	tmp_f.resize(ym.size());
+	std::vector<double> tmp_v;
+	tmp_v.resize(y_new.size());
 	int iter = 0;
-	xi.resize(ym.size());
-	xj.resize(ym.size());
-	for (std::size_t j = 0; j < xi.size(); j++)
+	x_old.resize(y_new.size());
+	x_new.resize(y_new.size());
+	for (std::size_t j = 0; j < x_old.size(); j++)
 	{
-		xi[j] = ym[j];
-		xj[j] = ym[j];
+		x_old[j] = y_new[j];
+		x_new[j] = y_new[j];
 	}
-	tmp_f = F(tau, yn, xi, equations);
-	print_v(tmp_f);
+	//tmp_v = F(tau, y_old, x_old, equations);
+	//print_v(tmp_v);
 	do
 	{
-		A = matr_yac(tau, yn, xi, equations, F);
+		A = matr_yac(tau, y_old, x_old, equations, F);
 		A = inverse_matr(A);
 //		print_v(tmp_f);
 //		std::cout << "\n";
-		tmp_f = F(tau, yn, xi, equations);
-		for (std::size_t j = 0; j < xi.size(); j++)
-			for (std::size_t k = 0; k < xi.size(); k++)
-				xj[j] -= A[j][k] * tmp_f[k];
-		for (std::size_t j = 0; j < xi.size(); j++)
-			xi[j] = xj[j];
+		tmp_v = mult_m_v(A, F(tau, y_old, x_old, equations));
+		for (std::size_t j = 0; j < x_old.size(); j++)
+		{
+			x_new[j] = x_old[j] - tmp_v[j];
+			x_old[j] = x_new[j];
+		}
 		iter++;
-	} while (v_residual(xi, xj) > 10e-7 || iter < 1000);
-	if (iter == 1000)
+	} while (v_residual(x_old, x_new) > 10e-7 && iter < 100);
+	if (iter == 100)
 	{
+		print_v(x_old);
+		print_v(x_new);
+
 		std::cout << "Too many iterations\n";
-		xj.resize(0);
+		x_new.resize(0);
 	}
-	return xj;
+	return x_new;
 }
 
-std::vector<std::vector<double>> matr_yac(double tau, std::vector<double> &yn, 
-std::vector<double> &ym, std::vector<eq> &equations, method_func F)
+std::vector<std::vector<double>> 	matr_yac(double tau, std::vector<double> &y_old, 
+									std::vector<double> &y_new, std::vector<eq> &equations, method_func F)
 {
 	std::vector<std::vector<double>> res;
 	double tmp_x;
 	std::vector<double> tmp_f;
-	res.resize(yn.size());
+	res.resize(y_old.size());
 	// std::cout << "yn: ";
 	// print_v(yn);
 	// std::cout << "ym: ";
@@ -150,19 +153,32 @@ std::vector<double> &ym, std::vector<eq> &equations, method_func F)
 	// std::cout << "\nF: ";
 	// print_v(tmp_f);
 	// std::cout << std::endl;
-	tmp_f = F(tau, yn, ym, equations);
-	for (std::size_t i = 0; i < yn.size(); i++)
+	tmp_f = F(tau, y_old, y_new, equations);
+	for (std::size_t i = 0; i < y_old.size(); i++)
 	{
-		res[i].resize(yn.size());
-		for (std::size_t j = 0; j < yn.size(); j++)
+		res[i].resize(y_old.size());
+		for (std::size_t j = 0; j < y_old.size(); j++)
 		{
-			tmp_x = ym[j];
-			ym[j] += 10e-10;
-			res[i][j] = (-tmp_f[i] + F(tau, yn, ym, equations)[i]) / 10e-10; 
-			ym[j] = tmp_x;
+			tmp_x = y_new[j];
+			y_new[j] += 10e-10;
+			res[i][j] = (-tmp_f[i] + F(tau, y_old, y_new, equations)[i]) / 10e-10; 
+			y_new[j] = tmp_x;
 		}
 	}
 	return res;
 }
 
+std::vector<double>		mult_m_v(std::vector<std::vector<double>> matr, std::vector<double> vec)
+{
+	std::vector<double> res_vec;
+	res_vec.resize(vec.size());
 
+	for (int i = 0; i < vec.size(); i++)
+	{
+		double sum = 0;
+		for (int j = 0; j < vec.size(); j++)
+			sum += matr[i][j] * vec[j];
+		res_vec[i] = sum;
+	}
+	return res_vec;
+}

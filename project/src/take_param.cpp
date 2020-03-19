@@ -17,13 +17,8 @@ int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> 
 	getline(fin, line);
 	fin >> step;
 	getline(fin, line);
-	char c = char(fin.get());
 	line.clear();
-	while (c != ' ' && c != '\t')
-	{
-		line += c;
-		c = char(fin.get());
-	}
+	fin >> line;
 	if (line == "test1")
 	{
 		equations.resize(2);
@@ -71,20 +66,12 @@ int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> 
 		return 1;
 	}
 	getline(fin, line);
-	c = char(fin.get());
-	while (c != ' ' && c != '\t')
-	{
-		method += c;
-		c = char(fin.get());
-	}
+	line.clear();
+	fin >> method;
 	getline(fin, line);
-	c = char(fin.get());
-	line = "project/initial_cond/";
-	while (c != ' ' && c != '\t')
-	{
-		line += c;
-		c = char(fin.get());
-	}
+	line.clear();
+	fin >> line;
+	line = "project/initial_cond/" + line;
 	std::ifstream init (line);
 	if (!init.is_open())
 	{
@@ -97,13 +84,9 @@ int		take_param(double &t0, double &t, double &n, double &step, std::vector<eq> 
 		init >> initial_cond[i];
 	init.close();
 	getline(fin, line);
-	c = char(fin.get());
-//	out_file = "project/output/";
-	while (c != ' ' && c != '\t')
-	{
-		out_file += c;
-		c = char(fin.get());
-	}
+	line.clear();
+	fin >> line;
+	out_file = "project/output/" + line;
 	fin.close();
 //	std::cout << &equations << "\n";
 	return 0;
