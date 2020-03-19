@@ -126,8 +126,8 @@ std::vector<double> &ym, std::vector<eq> &equations, method_func F)
 		for (std::size_t j = 0; j < xi.size(); j++)
 			xi[j] = xj[j];
 		iter++;
-	} while (v_residual(xi, xj) > 10e-7 || iter < 100);
-	if (iter == 100)
+	} while (v_residual(xi, xj) > 10e-7 || iter < 1000);
+	if (iter == 1000)
 	{
 		std::cout << "Too many iterations\n";
 		xj.resize(0);
