@@ -5,6 +5,7 @@ HDRS = \
 
 SRCS = \
 	   src/main.cpp \
+	   src/ODE.cpp \
 
 .PHONY: all clean
 
