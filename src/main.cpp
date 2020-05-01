@@ -1,4 +1,4 @@
-#include "NumSolODE.h"
+#include "numSolODE.h"
 
 using namespace std;
 
@@ -6,20 +6,26 @@ int     main() {
     try
     {
         ODE ode("set.txt");
-        ode.printInfo();
+        switch(ode.getMethod()) {
+        case Method::expEul:
+            ode.expEul();
+            break;
+        case Method::impEul:
+            ode.impEul();
+        // case Method::rg2:
+        //     ode.rg2();
+        // case Method::rg4:
+        //     ode.rg4();
+        // case Method::preCor:
+        //     ode.preCor();
+        // case Method::adams:
+        //     ode.adams();
+        }
     }
     catch(const char* e)
     {
         std::cerr << e << '\n';
         return 1;
     }
-    
-    // cout << "Stop wasting time!!!" << endl;
-    // cout << "I have created class \"ODE\"" << endl; 
-    // cout << "You need to implement class constructor, which take name of input file." << endl;
-    // cout << "Also, you need implement class destructor" << endl;
-    // cout << "It must fill ODE's class fields\n" << endl;
-    // cout << "P.S. You can add, delete or rename class fields" << endl;
-    // cout << "P.P.S. You can use my miserable imlementaion of funcion \"take param\"" << endl;
     return 0;
 }
