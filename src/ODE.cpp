@@ -28,6 +28,14 @@ void    putTestData(const string &name, std::vector<eq> equations, std::vector<f
             solution[0] = solution1MyTest1;
             solution[1] = solution2MyTest1;
             initConditionsMyTest1(init);
+        }else if (name == "mytest2") {
+            equations.resize(2);
+            solution.resize(2);
+            equations[0] = equation1MyTest2;
+            equations[1] = equation2MyTest2;
+            solution[0] = solution1MyTest2;
+            solution[1] = solution2MyTest2;
+            initConditionsMyTest2(init);
         }
         else{
             throw "There is no such test";

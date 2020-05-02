@@ -35,3 +35,27 @@ void        initConditionsMyTest1(std::vector<double> &init){
     init[0] = 3;
     init[1] = 0;
 }
+
+//my test2
+
+double      equation1MyTest2(const std::vector<double> &x) {
+    return x[0] - 2 * x[1];
+}
+
+double      equation2MyTest2(const std::vector<double> &x) {
+    return x[0] - x[1] - 2;
+}
+
+double      solution1MyTest2(const double t) {
+    return 4 * sin(t) * sin(t) + 5 * sin(t) + 4 * cos(t) * cos(t) - 3 * cos(t);
+}
+
+double      solution2MyTest2(const double t) {
+    return 2 * sin(t) * sin(t) + sin(t) + 2 * cos(t) * cos(t) - 4 * cos(t);
+}
+
+void        initConditionsMyTest2(std::vector<double> &init){
+    init.resize(2);
+    init[0] = 1;
+    init[1] = -2;
+}
