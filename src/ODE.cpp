@@ -1,4 +1,5 @@
 #include "numSolODE.h"
+#include "equations.h"
 
 using namespace std;
 
@@ -17,6 +18,22 @@ void    putMethod(const string &line, Method &method) {
         method = Method::adams;
 }
 
+void    putTestData(const string &name, std::vector<eq> equations, std::vector<fun>
+        solution, std::vector<double> init) {
+        if (name == "mytest1"){
+            equations.resize(2);
+            solution.resize(2);
+            equations[0] = equation1MyTest1;
+            equations[1] = equation2MyTest1;
+            solution[0] = solution1MyTest1;
+            solution[1] = solution2MyTest1;
+            initConditionsMyTest1(init);
+        }
+        else{
+            throw "There is no such test";
+        }
+}
+
 Method &ODE::getMethod(){
     return method;
 }
@@ -32,6 +49,8 @@ ODE::ODE(string nameOfInputFile) {
     getline(inFile, line);
     inFile >> outputFile;
     getline(inFile, line);
+    inFile >> line;
+    putTestData(line, equations, exactSolution, initConditions);
 }
 
 ODE::~ODE() {
