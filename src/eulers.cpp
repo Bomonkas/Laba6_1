@@ -5,8 +5,8 @@ using namespace std;
 int ODE::expEul(double t0, double T, int N) {
     double h = (T - t0) / N;
     vector<double> x{initConditions.begin(), initConditions.end()};
-	vector<double> tmp_x{initConditions.begin(), initConditions.end()};
-	vector<double> func{initConditions.begin(), initConditions.end()};
+	vector<double> tmp_x(x.size());
+	vector<double> func(x.size());
 	ofstream out(outputFile);
 	if (!out.is_open()) {
         throw "output file doesn't open for writing";

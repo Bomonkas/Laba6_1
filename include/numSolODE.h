@@ -4,6 +4,7 @@
 #include <cmath>
 #include <fstream>
 #include <cstring>
+#include <iomanip>
 
 //pls use "using namespace std" in cpp file
 
@@ -38,7 +39,7 @@ public:
 	double	findError();
     int		expEul(double t0, double T, int N);  // explicit Euler method
     int		impEul();  // implicit Euler method
-    int		rg2(double t0, double T, int N, double tau);     // Runge-Kutta method of the 2nd order
+    int		rg2(double t0, double T, double tau);     // Runge-Kutta method of the 2nd order
     int		rg4();     // Runge-Kutta method of the 4th order
     int		preCor();  // method of prediction and correction
     int		adams();   // adams method

@@ -14,9 +14,9 @@ int     main() {
         case Method::impEul:
             ode.impEul();
             break;
-        // case Method::rg2:
-        //     ode.rg2();
-        //     break;
+        case Method::rg2:
+            ode.rg2(t0, T, tau);
+            break;
         // case Method::rg4:
         //     ode.rg4();
         //     break;
@@ -27,7 +27,7 @@ int     main() {
         //     ode.adams();
         //     break;
         }
-		cout << "maxError = " << ode.findError() << endl;
+		cout << "maxError = " << setprecision(15) << ode.findError() << endl;
     }
     catch(const char* e) {
         std::cerr << e << '\n';
