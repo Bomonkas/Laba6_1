@@ -11,16 +11,16 @@ void    putMethod(const string &line, Method &method) {
     if (line == "rg2")
         method = Method::rg2;
     if (line == "rg4")
-        method = Method::rg4;
+        method = Method::rg4;   
     if (line == "preCor")
         method = Method::preCor;
     if (line == "adams")
         method = Method::adams;
 }
 
-void    putTestData(const string &name, std::vector<eq> equations, std::vector<fun>
-        solution, std::vector<double> init) {
-        if (name == "mytest1"){
+void    putTestData(const string &name, std::vector<eq> &equations, 
+                    std::vector<fun> &solution, std::vector<double> &init) {
+        if (name == "myTest1"){
             equations.resize(2);
             solution.resize(2);
             equations[0] = equation1MyTest1;
@@ -28,7 +28,7 @@ void    putTestData(const string &name, std::vector<eq> equations, std::vector<f
             solution[0] = solution1MyTest1;
             solution[1] = solution2MyTest1;
             initConditionsMyTest1(init);
-        }else if (name == "mytest2") {
+        }else if (name == "myTest2") {
             equations.resize(2);
             solution.resize(2);
             equations[0] = equation1MyTest2;
@@ -65,7 +65,8 @@ ODE::~ODE() {
 }
 
 // if u want to be cool proger u need to implement overlod of << 
-// void ODE::printInfo() { 
-//     cout << "method: " << getMethod() << endl;
-//     cout << "outputFile: " << outputFile << endl;
-// }
+void ODE::printInfo() { 
+    cout << "method: " << getMethod() << endl;
+    cout << "outputFile: " << outputFile << endl;
+    cout << "initConditions: x(t0) = " << initConditions[0] << ", y(t0) = " << initConditions[1] << endl;
+}
