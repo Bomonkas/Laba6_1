@@ -1,5 +1,14 @@
 #include "numSolODE.h"
+
 using namespace std;
+
+void	putLine(ofstream &out, double t, const vector<double> x){
+	out << t << " ";
+	for (const double &elem:x){
+		out << elem << " ";
+	}
+	out << "\n";
+}
 
 double	ODE::findError(){
 	double maxError = 0;

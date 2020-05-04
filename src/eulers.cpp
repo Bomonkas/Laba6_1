@@ -4,19 +4,22 @@ using namespace std;
 
 int ODE::expEul(double t0, double T, int N) {
     double h = (T - t0) / N;
-    vector<double> x = {initConditions[0], initConditions[1]};
+    vector<double> x{initConditions.begin(), initConditions.end()};
+	vector<double> tmp_x{initConditions.begin(), initConditions.end()};
+	vector<double> func{initConditions.begin(), initConditions.end()};
 	ofstream out(outputFile);
 	if (!out.is_open()) {
         throw "output file doesn't open for writing";
     }
-    double f1 = 0.0, f2 = 0.0;
-	out << t0 << " " << x[0] << " " << x[1] << "\n";
+	putLine(out, t0, x);
     for (int i = 0; i < N; i++) {
-        f1 = equations[0](x);
-        f2 = equations[1](x);
-        x[0] = x[0] + h * f1;
-        x[1] = x[1] + h * f2;
-        out << t0 + (i + 1) * h << " " << x[0] << " " << x[1] << "\n";
+		for (int j = 0; j < static_cast<int>(equations.size()); j++)
+		{
+			func[j] = equations[j](x);
+			tmp_x[j] = x[j] + h * func[j];
+		}
+		putLine(out, t0 + (i + 1) * h, tmp_x);
+		swap(tmp_x, x);
     }
     return 0;
 }
