@@ -8,7 +8,7 @@ SRCS = \
 	   src/ODE.cpp \
 	   src/eulers.cpp \
 	   src/secondary.cpp \
-	   src/rg.cpp
+	   src/rk.cpp
 
 .PHONY: all clean
 

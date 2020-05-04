@@ -14,10 +14,10 @@ int     main() {
         case Method::impEul:
             ode.impEul();
             break;
-        case Method::rg2:
-            ode.rg2(t0, T, tau);
+        case Method::rk2:
+            ode.rk2(t0, T, tau);
             break;
-        // case Method::rg4:
+        // case Method::rk4:
         //     ode.rg4();
         //     break;
         // case Method::preCor:

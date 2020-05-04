@@ -2,7 +2,7 @@
 
 using namespace std;
 
-int		ODE::rg2(double t0, double T, double tau){
+int		ODE::rk2(double t0, double T, double tau){
 	double n = (T - t0) / tau;
     vector<double> x{initConditions.begin(), initConditions.end()};
 	vector<double> k1(x.size());

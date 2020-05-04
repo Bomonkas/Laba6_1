@@ -16,8 +16,8 @@ typedef double (*fun)(const double t);
 enum Method {
     expEul,
     impEul,
-    rg2,
-    rg4,
+    rk2,
+    rk4,
     preCor,
     adams
 };
@@ -39,8 +39,8 @@ public:
 	double	findError();
     int		expEul(double t0, double T, int N);  // explicit Euler method
     int		impEul();  // implicit Euler method
-    int		rg2(double t0, double T, double tau);     // Runge-Kutta method of the 2nd order
-    int		rg4();     // Runge-Kutta method of the 4th order
+    int		rk2(double t0, double T, double tau);     // Runge-Kutta method of the 2nd order
+    int		rk4();     // Runge-Kutta method of the 4th order
     int		preCor();  // method of prediction and correction
     int		adams();   // adams method
 };

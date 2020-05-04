@@ -6,16 +6,19 @@ using namespace std;
 void    putMethod(const string &line, Method &method) {
     if (line == "expEul")
         method = Method::expEul;
-    if (line == "impEul")
+    else if (line == "impEul")
         method = Method::impEul;
-    if (line == "rg2")
-        method = Method::rg2;
-    if (line == "rg4")
-        method = Method::rg4;   
-    if (line == "preCor")
+    else if (line == "rg2")
+        method = Method::rk2;
+    else if (line == "rg4")
+        method = Method::rk4;   
+    else if (line == "preCor")
         method = Method::preCor;
-    if (line == "adams")
+    else if (line == "adams")
         method = Method::adams;
+	else
+		throw "there is no such method";
+	
 }
 
 void    putTestData(const string &name, std::vector<eq> &equations, 
