@@ -64,7 +64,6 @@ ODE::ODE(string nameOfInputFile) {
 ODE::~ODE() {
 }
 
-// if u want to be cool proger u need to implement overlod of << 
 void ODE::printInfo() { 
     cout << "method: " << getMethod() << endl;
     cout << "outputFile: " << outputFile << endl;

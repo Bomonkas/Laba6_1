@@ -27,6 +27,7 @@ int     main() {
         //     ode.adams();
         //     break;
         }
+		cout << "maxError = " << ode.findError() << endl;
     }
     catch(const char* e) {
         std::cerr << e << '\n';

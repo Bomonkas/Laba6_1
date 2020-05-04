@@ -6,7 +6,8 @@ HDRS = \
 SRCS = \
 	   src/main.cpp \
 	   src/ODE.cpp \
-	   src/eulers.cpp
+	   src/eulers.cpp \
+	   src/secondary.cpp
 
 .PHONY: all clean
 

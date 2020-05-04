@@ -33,12 +33,13 @@ public:
     ODE(std::string nameOfInputFile);  //constructor
     ~ODE(); //destructor
 
-    void printInfo();
-    Method &getMethod();
-    int expEul(double t0, double T, int N);  // explicit Euler method
-    int impEul();  // implicit Euler method
-    int rg2();     // Runge-Kutta method of the 2nd order
-    int rg4();     // Runge-Kutta method of the 4th order
-    int preCor();  // method of prediction and correction
-    int adams();   // adams method
+    void	printInfo();
+    Method	&getMethod();
+	double	findError();
+    int		expEul(double t0, double T, int N);  // explicit Euler method
+    int		impEul();  // implicit Euler method
+    int		rg2();     // Runge-Kutta method of the 2nd order
+    int		rg4();     // Runge-Kutta method of the 4th order
+    int		preCor();  // method of prediction and correction
+    int		adams();   // adams method
 };
