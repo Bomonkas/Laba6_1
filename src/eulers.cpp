@@ -11,14 +11,14 @@ int ODE::expEul(double t0, double T, int N) {
 	if (!out.is_open()) {
         throw "output file doesn't open for writing";
     }
-	putLine(out, t0, x);
+	putLineToFile(out, t0, x);
     for (int i = 0; i < N; i++) {
 		for (int j = 0; j < static_cast<int>(equations.size()); j++)
 		{
 			func[j] = equations[j](x);
 			tmp_x[j] = x[j] + h * func[j];
 		}
-		putLine(out, t0 + (i + 1) * h, tmp_x);
+		putLineToFile(out, t0 + (i + 1) * h, tmp_x);
 		swap(tmp_x, x);
     }
     return 0;

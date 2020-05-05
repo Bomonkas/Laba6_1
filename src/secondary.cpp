@@ -2,7 +2,7 @@
 
 using namespace std;
 
-void	putLine(ofstream &out, double t, const vector<double> x){
+void	putLineToFile(ofstream &out, double t, const vector<double> x){
 	out << t << " ";
 	for (const double &elem:x){
 		out << elem << " ";

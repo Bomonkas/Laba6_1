@@ -45,4 +45,4 @@ public:
     int		adams();   // adams method
 };
 
-void	putLine(std::ofstream &out, double t, const std::vector<double> x);
+void	putLineToFile(std::ofstream &out, double t, const std::vector<double> x);
