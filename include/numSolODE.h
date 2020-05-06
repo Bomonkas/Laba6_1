@@ -10,7 +10,7 @@
 
 typedef double (*eq)(const std::vector<double> &x);
 typedef std::vector<double> (*method_func)(double tau, std::vector<double> &current,
-                                           std::vector<double> &previous, std::vector<eq> &functions);
+                                           std::vector<double> &previous, const std::vector<eq> &functions);
 typedef double (*fun)(const double t);
 
 enum Method {
@@ -50,4 +50,4 @@ void	putLineToFile(std::ofstream &out, double t, const std::vector<double> x);
 std::vector<std::vector<double>> getInverseMatrix(std::vector<std::vector<double>> &A);
 void printMatrix(const std::vector<std::vector<double>> &A);
 std::vector<double> newton(double tau, const std::vector<double> &cur,
-const std::vector<double> &prev, const std::vector<eq> &equations);
+const std::vector<double> &prev, const std::vector<eq> &equations, const method_func &methodFunction);

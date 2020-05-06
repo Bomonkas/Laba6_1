@@ -27,6 +27,10 @@ int ODE::expEul(double t0, double T, int N) {
 int ODE::impEul(double tau) {
 	vector<double> current{3, 0};
 	vector<double> previous{0, 0};
-	newton(tau, current, previous, equations);
+	vector<double> res = newton(tau, current, previous, equations, methodFunction);
+	for (const double &t:res){
+		cout << t << " ";
+	}
+	cout << endl;
     return 0;
 }

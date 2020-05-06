@@ -58,22 +58,39 @@ vector<vector<double>> getYacobyMatrix(const vector<double> y, const vector<eq> 
 	return yacoby;
 }
 
+vector<double> multMatrixVector(const vector<vector<double>> &matr, const vector<double> &vec){
+	vector<double> res(vec.size());
+	for (size_t i = 0; i < vec.size(); i++){
+		res[i] = 0;
+		for (size_t j = 0; j < vec.size(); j++){
+			res[i] += vec[j] * matr[i][j];
+		}
+	}
+	return res;
+}
+
 vector<double> newton(double tau, const vector<double> &cur, const vector<double> &prev, 
-const vector<eq> &equations) {
-	vector<double> res(cur.size());
+const vector<eq> &equations, const method_func &methodFunction){
+	vector<double> mult(cur.size());
+	vector<double> next{prev.begin(), prev.end()};
 	vector<double> current{cur.begin(), cur.end()};
 	vector<double> previous{prev.begin(), prev.end()};
-	vector<vector<double>> inverseYacobyMatr = getYacobyMatrix(current, equations);
-	printMatrix(inverseYacobyMatr);
-	inverseYacobyMatr = getInverseMatrix(inverseYacobyMatr);
-	printMatrix(inverseYacobyMatr);
-	// int iter = 0;
-	// do {
-	// 	for (size_t i = 0; i < current.size(); i++){
-	// 		//res[i] = current[i] - multMatrixVector(inverseYacobyMatr, methodFunc);
-	// 	}
-	// 	iter++;
-
-	// } while (vectorResidual(current, previous) < 10e-7 && iter == 30);
-	return res;
+	vector<vector<double>> inverseYacobyMatr;
+	int iter = 0;
+	do {
+		swap(next, previous);
+		inverseYacobyMatr = getYacobyMatrix(current, equations);
+		inverseYacobyMatr = getInverseMatrix(inverseYacobyMatr);
+		mult = multMatrixVector(inverseYacobyMatr,
+			methodFunction(tau, current, previous, equations));
+		for (size_t i = 0; i < current.size(); i++){
+			next[i] = current[i] - mult[i];
+		}
+		iter++;
+		swap(next, current);
+	} while (vectorResidual(current, next) < 10e-7 && iter == 30);
+	if (iter == 30){
+		cout << "too much iterations" << endl;
+	}
+	return current;
 }
