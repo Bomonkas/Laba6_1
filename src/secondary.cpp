@@ -41,10 +41,10 @@ double vectorResidual(const vector<double> &first, const vector<double> &second)
 }
 
 double derivative(double tau, const vector<double> &cur, const vector<double> &prev, 
-const eq &equation, const int i, const method_func &methodFunction){
+const eq &equation,const int numOfEquat, const int numOfVar, const method_func &methodFunction){
 	vector<double> deltaCurrent{cur.begin(), cur.end()};
-	deltaCurrent[i] += 10e-10;
-	return (methodFunction(tau, deltaCurrent, prev, equation, i) - methodFunction(tau, cur, prev, equation, i)) / 10e-10;
+	deltaCurrent[numOfVar] += 10e-10;
+	return (methodFunction(tau, deltaCurrent, prev, equation, numOfEquat) - methodFunction(tau, cur, prev, equation, numOfEquat)) / 10e-10;
 }
 
 // vector<vector<double>> getYacobyMatrix(const vector<double> y, const vector<eq> &equations){
@@ -64,7 +64,7 @@ const vector<eq> &equations, const method_func &methodFunction){
 	for (size_t i = 0; i < cur.size(); i++){
 		yacoby[i].resize(cur.size());
 		for (size_t j = 0; j < cur.size(); j++){
-			yacoby[i][j] = derivative(tau, cur, prev, equations[j], j, methodFunction);
+			yacoby[i][j] = derivative(tau, cur, prev, equations[i], i, j, methodFunction);
 		}
 	}
 	return yacoby;
