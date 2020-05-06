@@ -38,12 +38,12 @@ public:
     void	printInfo();
     Method	&getMethod();
 	double	findError();
-    int		expEul(double t0, double T, int N);  // explicit Euler method
-    int		impEul(double tau);  // implicit Euler method
-    int		rk2(double t0, double T, double tau);     // Runge-Kutta method of the 2nd order
-    int		rk4();     // Runge-Kutta method of the 4th order
-    int		preCor();  // method of prediction and correction
-    int		adams();   // adams method
+    int		expEul(double t0, double T, int N);         // explicit Euler method
+    int		impEul(double tau);                         // implicit Euler method
+    int		rk2(double t0, double T, double tau);       // Runge-Kutta method of the 2nd order
+    int		rk4(double t0, double T, double tau);       // Runge-Kutta method of the 4th order
+    int		preCor();                                   // method of prediction and correction
+    int		adams();                                    // adams method
 };
 
 void	putLineToFile(std::ofstream &out, double t, const std::vector<double> x);

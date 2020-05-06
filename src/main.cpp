@@ -17,9 +17,9 @@ int     main() {
         case Method::rk2:
             ode.rk2(t0, T, tau);
             break;
-        // case Method::rk4:
-        //     ode.rg4();
-        //     break;
+        case Method::rk4:
+            ode.rk4(t0, T, tau);
+            break;
         // case Method::preCor:
         //     ode.preCor();
         //     break;

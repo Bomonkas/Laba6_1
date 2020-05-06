@@ -10,9 +10,9 @@ void    putMethod(const string &line, Method &method, method_func &methodFunctio
         method = Method::impEul;
 		methodFunction = impEulFunction;
 	}
-    else if (line == "rg2")
+    else if (line == "rk2")
         method = Method::rk2;
-    else if (line == "rg4")
+    else if (line == "rk4")
         method = Method::rk4;   
     else if (line == "preCor")
         method = Method::preCor;
