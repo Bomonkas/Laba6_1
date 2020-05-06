@@ -3,11 +3,13 @@
 
 using namespace std;
 
-void    putMethod(const string &line, Method &method) {
+void    putMethod(const string &line, Method &method, method_func &methodFunction) {
     if (line == "expEul")
         method = Method::expEul;
-    else if (line == "impEul")
+    else if (line == "impEul"){
         method = Method::impEul;
+		methodFunction = impEulFunction;
+	}
     else if (line == "rg2")
         method = Method::rk2;
     else if (line == "rg4")
@@ -56,7 +58,7 @@ ODE::ODE(string nameOfInputFile) {
     }
     string line;
     inFile >> line;
-    putMethod(line, method);
+    putMethod(line, method, methodFunction);
     getline(inFile, line);
     inFile >> outputFile;
     getline(inFile, line);

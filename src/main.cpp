@@ -12,7 +12,7 @@ int     main() {
             ode.expEul(t0, T, N);
             break;
         case Method::impEul:
-            ode.impEul();
+            ode.impEul(tau);
             break;
         case Method::rk2:
             ode.rk2(t0, T, tau);

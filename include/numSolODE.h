@@ -9,8 +9,8 @@
 //pls use "using namespace std" in cpp file
 
 typedef double (*eq)(const std::vector<double> &x);
-typedef std::vector<double> (*method_func)(double tau, std::vector<double> &yn,
-                                           std::vector<double> &ym, std::vector<eq> &functions);
+typedef std::vector<double> (*method_func)(double tau, std::vector<double> &current,
+                                           std::vector<double> &previous, std::vector<eq> &functions);
 typedef double (*fun)(const double t);
 
 enum Method {
@@ -27,6 +27,7 @@ private:
     std::vector<eq> equations;
     std::vector<fun> exactSolution;
     std::vector<double> initConditions;
+	method_func methodFunction;
     Method method;
     std::string outputFile;
 
@@ -38,7 +39,7 @@ public:
     Method	&getMethod();
 	double	findError();
     int		expEul(double t0, double T, int N);  // explicit Euler method
-    int		impEul();  // implicit Euler method
+    int		impEul(double tau);  // implicit Euler method
     int		rk2(double t0, double T, double tau);     // Runge-Kutta method of the 2nd order
     int		rk4();     // Runge-Kutta method of the 4th order
     int		preCor();  // method of prediction and correction
@@ -46,3 +47,7 @@ public:
 };
 
 void	putLineToFile(std::ofstream &out, double t, const std::vector<double> x);
+std::vector<std::vector<double>> getInverseMatrix(std::vector<std::vector<double>> &A);
+void printMatrix(const std::vector<std::vector<double>> &A);
+std::vector<double> newton(double tau, const std::vector<double> &cur,
+const std::vector<double> &prev, const std::vector<eq> &equations);

@@ -13,7 +13,7 @@ int ODE::expEul(double t0, double T, int N) {
     }
 	putLineToFile(out, t0, x);
     for (int i = 0; i < N; i++) {
-		for (int j = 0; j < static_cast<int>(equations.size()); j++)
+		for (size_t j = 0; j < equations.size(); j++)
 		{
 			func[j] = equations[j](x);
 			tmp_x[j] = x[j] + h * func[j];
@@ -24,6 +24,9 @@ int ODE::expEul(double t0, double T, int N) {
     return 0;
 }
 
-int ODE::impEul() {
+int ODE::impEul(double tau) {
+	vector<double> current{3, 0};
+	vector<double> previous{0, 0};
+	newton(tau, current, previous, equations);
     return 0;
 }

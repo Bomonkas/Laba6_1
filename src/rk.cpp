@@ -14,10 +14,10 @@ int		ODE::rk2(double t0, double T, double tau){
 	putLineToFile(out, t0, x);
 	double a1 = 0.5;
 	for (int i = 0; i < n; i++) {
-		for (int j = 0; j < static_cast<int>(x.size()); j++){
+		for (size_t j = 0; j < x.size(); j++){
 			k1[j] = a1 * tau * equations[j](x) + x[j];
 		}
-		for (int j = 0; j < static_cast<int>(x.size()); j++){
+		for (size_t j = 0; j < x.size(); j++){
 			k2[j] = tau * equations[j](x) + x[j];
 		}	
         putLineToFile(out, t0 + (i + 1) * tau, k2);
