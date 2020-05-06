@@ -2,13 +2,9 @@
 #include "numSolODE.h"
 
 //method functions for newton
-std::vector<double> impEulFunction(double tau, std::vector<double> &current, 
-		std::vector<double> &previous, const std::vector<eq> &functions) {
-	std::vector<double> result{current.begin(), current.end()};
-	for (std::size_t i = 0; i < current.size(); i++){
-		result[i] += -tau * functions[i](current) - previous[i];
-	}
-	return result;
+double impEulFunction(double tau, const std::vector<double> &current, 
+		const std::vector<double> &previous, const eq &function, const int i) {
+	return current[i] - previous[i] - tau * function(current);
 }
 
 //pendulum

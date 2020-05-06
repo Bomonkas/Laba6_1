@@ -9,8 +9,8 @@
 //pls use "using namespace std" in cpp file
 
 typedef double (*eq)(const std::vector<double> &x);
-typedef std::vector<double> (*method_func)(double tau, std::vector<double> &current,
-                                           std::vector<double> &previous, const std::vector<eq> &functions);
+typedef double (*method_func)(double tau, const std::vector<double> &current,
+        const std::vector<double> &previous, const eq &functions, const int i);
 typedef double (*fun)(const double t);
 
 enum Method {

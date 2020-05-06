@@ -40,19 +40,31 @@ double vectorResidual(const vector<double> &first, const vector<double> &second)
 	return res;
 }
 
-double derivative(eq equation, const vector<double> y, const int i){
-	vector<double> x{y.begin(), y.end()};
-	vector<double> deltaX{y.begin(), y.end()};
-	deltaX[i] += 10e-10;
-	return (equation(deltaX) - equation(x)) / 10e-10;
+double derivative(double tau, const vector<double> &cur, const vector<double> &prev, 
+const eq &equation, const int i, const method_func &methodFunction){
+	vector<double> deltaCurrent{cur.begin(), cur.end()};
+	deltaCurrent[i] += 10e-10;
+	return (methodFunction(tau, deltaCurrent, prev, equation, i) - methodFunction(tau, cur, prev, equation, i)) / 10e-10;
 }
 
-vector<vector<double>> getYacobyMatrix(const vector<double> y, const vector<eq> &equations){
-	vector<vector<double>> yacoby(y.size());
-	for (size_t i = 0; i < y.size(); i++){
-		yacoby[i].resize(y.size());
-		for (size_t j = 0; j < y.size(); j++){
-			yacoby[i][j] = derivative(equations[i], y, j);
+// vector<vector<double>> getYacobyMatrix(const vector<double> y, const vector<eq> &equations){
+// 	vector<vector<double>> yacoby(y.size());
+// 	for (size_t i = 0; i < y.size(); i++){
+// 		yacoby[i].resize(y.size());
+// 		for (size_t j = 0; j < y.size(); j++){
+// 			yacoby[i][j] = derivative(equations[i], y, j);
+// 		}
+// 	}
+// 	return yacoby;
+// }
+
+vector<vector<double>> getYacobyMatrix(double tau, const vector<double> &cur, const vector<double> &prev, 
+const vector<eq> &equations, const method_func &methodFunction){
+	vector<vector<double>> yacoby(cur.size());
+	for (size_t i = 0; i < cur.size(); i++){
+		yacoby[i].resize(cur.size());
+		for (size_t j = 0; j < cur.size(); j++){
+			yacoby[i][j] = derivative(tau, cur, prev, equations[j], j, methodFunction);
 		}
 	}
 	return yacoby;
@@ -69,6 +81,15 @@ vector<double> multMatrixVector(const vector<vector<double>> &matr, const vector
 	return res;
 }
 
+vector<double> getFullMethodFunction(double tau, const vector<double> &cur, const vector<double> &prev, 
+const vector<eq> &equations, const method_func &methodFunction){
+	vector<double> res(cur.size());
+	for (size_t i = 0; i < cur.size(); i++){
+		res[i] = methodFunction(tau, cur, prev, equations[i], i);
+	}
+	return res;
+}
+
 vector<double> newton(double tau, const vector<double> &cur, const vector<double> &prev, 
 const vector<eq> &equations, const method_func &methodFunction){
 	vector<double> mult(cur.size());
@@ -79,10 +100,10 @@ const vector<eq> &equations, const method_func &methodFunction){
 	int iter = 0;
 	do {
 		swap(next, previous);
-		inverseYacobyMatr = getYacobyMatrix(current, equations);
+		inverseYacobyMatr = getYacobyMatrix(tau, current, previous, equations, methodFunction);
 		inverseYacobyMatr = getInverseMatrix(inverseYacobyMatr);
 		mult = multMatrixVector(inverseYacobyMatr,
-			methodFunction(tau, current, previous, equations));
+			getFullMethodFunction(tau, current, previous, equations, methodFunction));
 		for (size_t i = 0; i < current.size(); i++){
 			next[i] = current[i] - mult[i];
 		}

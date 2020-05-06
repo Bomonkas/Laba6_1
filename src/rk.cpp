@@ -40,7 +40,6 @@ int		ODE::rk4(double t0, double T, double tau) {
         throw "output file doesn't open for writing";
     }
 	putLineToFile(out, t0, x);
-	double a1 = 0.5;
 	for (int i = 0; i < n; i++) {
 		for (size_t j = 0; j < x.size(); j++) {
 			k1[j] = equations[j](x);
