@@ -42,6 +42,15 @@ void    putTestData(const string &name, std::vector<eq> &equations,
             solution[1] = solution2MyTest2;
             initConditionsMyTest2(init);
         }
+		else if(name == "RBTest"){
+			cout << "RB Yacoby:\n" << -0.8 << " 0\n";
+			cout << 0.6 << " " << -1 << endl << endl;
+			equations.resize(2);
+            solution.resize(2);
+            equations[0] = equation1RBTest;
+            equations[1] = equation2RBTest;
+            initConditionsRBTest(init);
+		}
         else{
             throw "There is no such test";
         }

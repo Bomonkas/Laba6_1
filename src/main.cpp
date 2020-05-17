@@ -6,7 +6,7 @@ using namespace std;
 int     main() {
     try {
         ODE ode("set.txt");
-        ode.printInfo();
+        // ode.printInfo();
         switch(ode.getMethod()) {
         case Method::expEul:
             ode.expEul(t0, T, N);

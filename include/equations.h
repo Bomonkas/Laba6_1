@@ -65,3 +65,19 @@ void        initConditionsMyTest2(std::vector<double> &init){
     init[0] = 1;
     init[1] = -2;
 }
+
+// rb test
+
+double      equation1RBTest(const std::vector<double> &x) {
+    return 2 * x[0] + x[1] * x[1] - 1;
+}
+
+double      equation2RBTest(const std::vector<double> &x) {
+    return 6 * x[0] - x[1] * x[1] + 1;
+}
+
+void        initConditionsRBTest(std::vector<double> &init){
+    init.resize(2);
+    init[0] = 1;
+    init[1] = 0;
+}

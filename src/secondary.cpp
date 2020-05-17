@@ -40,12 +40,6 @@ double vectorResidual(const vector<double> &first, const vector<double> &second)
 	return res;
 }
 
-double derivative(double tau, const vector<double> &cur, const vector<double> &prev, 
-const eq &equation,const int numOfEquat, const int numOfVar, const method_func &methodFunction){
-	vector<double> deltaCurrent{cur.begin(), cur.end()};
-	deltaCurrent[numOfVar] += 10e-10;
-	return (methodFunction(tau, deltaCurrent, prev, equation, numOfEquat) - methodFunction(tau, cur, prev, equation, numOfEquat)) / 10e-10;
-}
 
 // vector<vector<double>> getYacobyMatrix(const vector<double> y, const vector<eq> &equations){
 // 	vector<vector<double>> yacoby(y.size());
@@ -58,17 +52,7 @@ const eq &equation,const int numOfEquat, const int numOfVar, const method_func &
 // 	return yacoby;
 // }
 
-vector<vector<double>> getYacobyMatrix(double tau, const vector<double> &prev, const vector<double> &preprev, 
-const vector<eq> &equations, const method_func &methodFunction){
-	vector<vector<double>> yacoby(prev.size());
-	for (size_t i = 0; i < prev.size(); i++){
-		yacoby[i].resize(prev.size());
-		for (size_t j = 0; j < prev.size(); j++){
-			yacoby[i][j] = derivative(tau, prev, preprev, equations[i], i, j, methodFunction);
-		}
-	}
-	return yacoby;
-}
+
 
 vector<double> multMatrixVector(const vector<vector<double>> &matr, const vector<double> &vec){
 	vector<double> res(vec.size());
@@ -88,6 +72,30 @@ const vector<eq> &equations, const method_func &methodFunction){
 		res[i] = methodFunction(tau, cur, prev, equations[i], i);
 	}
 	return res;
+}
+
+double	YacobyElem(double tau, const vector<double> &prev, const vector<double> preprev,
+const int numOfEquat, const int numOfVar, const vector<eq> &equations,
+const method_func &methodFunction){
+	vector<double> deltaPrev(prev.begin(), prev.end());
+	deltaPrev[numOfVar] += 10e-10;
+	return (methodFunction(tau, deltaPrev, preprev, equations[numOfEquat], numOfEquat) -
+			methodFunction(tau, prev, preprev, equations[numOfEquat], numOfEquat)) / 10e-10;
+	return 0;
+}
+
+vector<vector<double>> getYacobyMatrix(double tau, const vector<double> &prev,
+const vector<double> &preprev, const vector<eq> &equations, 
+const method_func &methodFunction){
+	vector<vector<double>> Yacoby(prev.size());
+	for (size_t numOfEquat = 0; numOfEquat < prev.size(); numOfEquat++){
+		Yacoby[numOfEquat].resize(prev.size());
+		for (size_t numOfVar = 0; numOfVar < prev.size(); numOfVar++){
+			Yacoby[numOfEquat][numOfVar] = -YacobyElem(tau, prev, preprev, numOfEquat,
+			numOfVar, equations, methodFunction);
+		}
+	}
+	return Yacoby;
 }
 
 vector<double> newton(double tau, const vector<double> &prev_, 
@@ -110,7 +118,7 @@ const method_func &methodFunction){
 		mult = multMatrixVector(inverseYacobyMatr,
 			getFullMethodFunction(tau, prev, preprev, equations, methodFunction));
 		for (size_t i = 0; i < prev.size(); i++){
-			curr[i] = prev[i] - mult[i];
+			curr[i] = prev[i] + mult[i];
 		}
 		iter++;
 	} while (vectorResidual(prev, curr) < 10e-7 && iter == 30);

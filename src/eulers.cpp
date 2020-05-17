@@ -27,20 +27,17 @@ int ODE::expEul(double t0, double T, int N) {
 int ODE::impEul(double t0, double T, int N) {
 	double h = (T - t0) / N;
 	ofstream out(outputFile);
-	vector<double> preprev{3, 0};
-	vector<double> prev{initConditions.begin(), initConditions.end()};
+	vector<double> prev(initConditions.begin(), initConditions.end());
+	vector<double> init(initConditions.size());
 	vector<double> curr{initConditions.begin(), initConditions.end()};
 	if (!out.is_open()) {
         throw "output file doesn't open for writing";
     }
 	putLineToFile(out, t0, prev);
     for (int i = 0; i < N; i++) {
-		if (i != 0){
-			preprev.assign(prev.begin(), prev.end());
-			prev.assign(curr.begin(), curr.end());
-		}
-		curr = newton(h, prev, preprev, equations, methodFunction);
-		putLineToFile(out, t0, curr);
+		curr = newton(h, init, prev, equations, methodFunction);
+		prev.assign(curr.begin(), curr.end());
+		putLineToFile(out, t0 + (i + 1) * h, curr);
     }
     return 0;
 }
