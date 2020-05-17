@@ -39,7 +39,7 @@ public:
     Method	&getMethod();
 	double	findError();
     int		expEul(double t0, double T, int N);         // explicit Euler method
-    int		impEul(double tau);                         // implicit Euler method
+    int		impEul(double t0, double T, int N);                         // implicit Euler method
     int		rk2(double t0, double T, double tau);       // Runge-Kutta method of the 2nd order
     int		rk4(double t0, double T, double tau);       // Runge-Kutta method of the 4th order
     int		preCor();                                   // method of prediction and correction
@@ -49,5 +49,5 @@ public:
 void	putLineToFile(std::ofstream &out, double t, const std::vector<double> x);
 std::vector<std::vector<double>> getInverseMatrix(std::vector<std::vector<double>> &A);
 void printMatrix(const std::vector<std::vector<double>> &A);
-std::vector<double> newton(double tau, const std::vector<double> &cur,
-const std::vector<double> &prev, const std::vector<eq> &equations, const method_func &methodFunction);
+std::vector<double> newton(double tau, const std::vector<double> &prev_,
+const std::vector<double> &preprev_, const std::vector<eq> &equations, const method_func &methodFunction);

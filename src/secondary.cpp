@@ -58,13 +58,13 @@ const eq &equation,const int numOfEquat, const int numOfVar, const method_func &
 // 	return yacoby;
 // }
 
-vector<vector<double>> getYacobyMatrix(double tau, const vector<double> &cur, const vector<double> &prev, 
+vector<vector<double>> getYacobyMatrix(double tau, const vector<double> &prev, const vector<double> &preprev, 
 const vector<eq> &equations, const method_func &methodFunction){
-	vector<vector<double>> yacoby(cur.size());
-	for (size_t i = 0; i < cur.size(); i++){
-		yacoby[i].resize(cur.size());
-		for (size_t j = 0; j < cur.size(); j++){
-			yacoby[i][j] = derivative(tau, cur, prev, equations[i], i, j, methodFunction);
+	vector<vector<double>> yacoby(prev.size());
+	for (size_t i = 0; i < prev.size(); i++){
+		yacoby[i].resize(prev.size());
+		for (size_t j = 0; j < prev.size(); j++){
+			yacoby[i][j] = derivative(tau, prev, preprev, equations[i], i, j, methodFunction);
 		}
 	}
 	return yacoby;
@@ -90,28 +90,32 @@ const vector<eq> &equations, const method_func &methodFunction){
 	return res;
 }
 
-vector<double> newton(double tau, const vector<double> &cur, const vector<double> &prev, 
-const vector<eq> &equations, const method_func &methodFunction){
-	vector<double> mult(cur.size());
-	vector<double> next{prev.begin(), prev.end()};
-	vector<double> current{cur.begin(), cur.end()};
-	vector<double> previous{prev.begin(), prev.end()};
+vector<double> newton(double tau, const vector<double> &prev_, 
+const vector<double> &preprev_, const vector<eq> &equations, 
+const method_func &methodFunction){
+	vector<double> mult(prev_.size());
+	vector<double> prev(prev_.begin(), prev_.end());
+	vector<double> preprev(preprev_.begin(), preprev_.end());
+	vector<double> curr(prev_.size());
 	vector<vector<double>> inverseYacobyMatr;
 	int iter = 0;
 	do {
-		swap(next, previous);
-		inverseYacobyMatr = getYacobyMatrix(tau, current, previous, equations, methodFunction);
+		if (iter != 0){
+			preprev.assign(prev.begin(), prev.end());
+			prev.assign(curr.begin(), curr.end());
+		}
+		inverseYacobyMatr = getYacobyMatrix(tau, prev, preprev, equations,
+							methodFunction);
 		inverseYacobyMatr = getInverseMatrix(inverseYacobyMatr);
 		mult = multMatrixVector(inverseYacobyMatr,
-			getFullMethodFunction(tau, current, previous, equations, methodFunction));
-		for (size_t i = 0; i < current.size(); i++){
-			next[i] = current[i] - mult[i];
+			getFullMethodFunction(tau, prev, preprev, equations, methodFunction));
+		for (size_t i = 0; i < prev.size(); i++){
+			curr[i] = prev[i] - mult[i];
 		}
 		iter++;
-		swap(next, current);
-	} while (vectorResidual(current, next) < 10e-7 && iter == 30);
+	} while (vectorResidual(prev, curr) < 10e-7 && iter == 30);
 	if (iter == 30){
-		cout << "too much iterations" << endl;
+		throw "too much iter in newton";
 	}
-	return current;
+	return curr;
 }

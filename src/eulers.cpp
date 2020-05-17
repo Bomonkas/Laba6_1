@@ -24,13 +24,23 @@ int ODE::expEul(double t0, double T, int N) {
     return 0;
 }
 
-int ODE::impEul(double tau) {
-	vector<double> current{3, 0};
-	vector<double> previous{0, 0};
-	vector<double> res = newton(tau, current, previous, equations, methodFunction);
-	for (const double &t:res){
-		cout << t << " ";
-	}
-	cout << endl;
+int ODE::impEul(double t0, double T, int N) {
+	double h = (T - t0) / N;
+	ofstream out(outputFile);
+	vector<double> preprev{3, 0};
+	vector<double> prev{initConditions.begin(), initConditions.end()};
+	vector<double> curr{initConditions.begin(), initConditions.end()};
+	if (!out.is_open()) {
+        throw "output file doesn't open for writing";
+    }
+	putLineToFile(out, t0, prev);
+    for (int i = 0; i < N; i++) {
+		if (i != 0){
+			preprev.assign(prev.begin(), prev.end());
+			prev.assign(curr.begin(), curr.end());
+		}
+		curr = newton(h, prev, preprev, equations, methodFunction);
+		putLineToFile(out, t0, curr);
+    }
     return 0;
 }
