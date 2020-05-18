@@ -6,7 +6,7 @@ using namespace std;
 int     main() {
     try {
         ODE ode("set.txt");
-        // ode.printInfo();
+        ode.printInfo();
         switch(ode.getMethod()) {
         case Method::expEul:
             ode.expEul(t0, T, N);
@@ -20,6 +20,8 @@ int     main() {
         case Method::rk4:
             ode.rk4(t0, T, tau);
             break;
+		case Method::symmetrical:
+			ode.symmetrical(t0, T, N);
         // case Method::preCor:
         //     ode.preCor();
         //     break;

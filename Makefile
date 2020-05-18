@@ -9,7 +9,8 @@ SRCS = \
 	   src/eulers.cpp \
 	   src/secondary.cpp \
 	   src/rk.cpp \
-	   src/slau.cpp
+	   src/slau.cpp \
+	   src/symmetrical.cpp
 
 .PHONY: all clean
 

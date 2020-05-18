@@ -19,7 +19,8 @@ enum Method {
     rk2,
     rk4,
     preCor,
-    adams
+    adams,
+	symmetrical
 };
 
 class ODE {
@@ -38,6 +39,7 @@ public:
     void	printInfo();
     Method	&getMethod();
 	double	findError();
+	int		symmetrical(double t0, double T, int N);
     int		expEul(double t0, double T, int N);         // explicit Euler method
     int		impEul(double t0, double T, int N);                         // implicit Euler method
     int		rk2(double t0, double T, double tau);       // Runge-Kutta method of the 2nd order

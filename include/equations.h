@@ -7,6 +7,11 @@ double impEulFunction(double tau, const std::vector<double> &current,
 	return current[i] - previous[i] - tau * function(current);
 }
 
+double symmetricalFunction(double tau, const std::vector<double> &current, 
+		const std::vector<double> &previous, const eq &function, const int i) {
+	return current[i] - previous[i] - tau / 2 * (function(current) + function(previous));
+}
+
 //pendulum
 double      equation1Pendulum(const std::vector<double> &x) {
     return x[1];
@@ -64,20 +69,4 @@ void        initConditionsMyTest2(std::vector<double> &init){
     init.resize(2);
     init[0] = 1;
     init[1] = -2;
-}
-
-// rb test
-
-double      equation1RBTest(const std::vector<double> &x) {
-    return 2 * x[0] + x[1] * x[1] - 1;
-}
-
-double      equation2RBTest(const std::vector<double> &x) {
-    return 6 * x[0] - x[1] * x[1] + 1;
-}
-
-void        initConditionsRBTest(std::vector<double> &init){
-    init.resize(2);
-    init[0] = 1;
-    init[1] = 0;
 }
